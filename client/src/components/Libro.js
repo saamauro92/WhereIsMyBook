@@ -12,7 +12,7 @@ export default function Libro(props) {
 
 
         const respuesta = await axios.get('http://localhost:3000/libro');
-        dispatch({ type: 'VER_LIBROS', listadoDeLibros: respuesta.data });
+        dispatch({ type: 'VER_LIBROS', storeActionLibros: respuesta.data });
 
     }, []);
 

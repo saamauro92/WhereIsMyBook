@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/Home'
@@ -9,6 +9,7 @@ import Generos from './components/Generos';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import AgregarPersona from './components/AgregarPersona';
+import AgregarGenero from './components/AgregarGenero';
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
   React.useEffect(async () => {
 
     const respuesta = await axios.get('http://localhost:3000/persona');
-    dispatch({ type: 'VER_PERSONAS', personaState: respuesta.data });
+    dispatch({ type: 'VER_PERSONAS', storeAction: respuesta.data });
 
 
   }, []);
@@ -47,6 +48,7 @@ function App() {
         <Route exact path="/generos" component={Generos} />
 
         <Route exact path="/persona/agregar" component={AgregarPersona} />
+         <Route exact path="/generos/agregar" component={AgregarGenero} /> 
       </Router>
 
 

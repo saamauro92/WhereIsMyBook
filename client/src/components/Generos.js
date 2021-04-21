@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 export default function Generos() {
 
@@ -21,6 +22,7 @@ export default function Generos() {
 
             <h2>Generos</h2>
 
+            <Link to="/generos/agregar"> <h3> +Agregar Genero(tooltip)</h3> </Link>
 
 
             {
