@@ -95,12 +95,6 @@ console.log(form);
             <button onClick={handleCancel}>Cancelar</button>
 
 
-            <div>
-                <p>
-                  {  categorias.map((categoria)=> <div> {categoria.id} {categoria.nombre}</div> )}
-                </p>
-            </div>
-
 
 
         </div>
