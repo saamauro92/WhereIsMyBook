@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import AgregarPersona from './components/AgregarPersona';
 import AgregarGenero from './components/AgregarGenero';
+import AgregarLibro from './components/AgregarLibro';
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
   React.useEffect(async () => {
 
     const respuesta = await axios.get('http://localhost:3000/persona');
-    dispatch({ type: 'VER_PERSONAS', storeAction: respuesta.data });
+    dispatch({ type: 'VER_PERSONAS', listadoPersona: respuesta.data });
 
 
   }, []);
@@ -49,6 +50,7 @@ function App() {
 
         <Route exact path="/persona/agregar" component={AgregarPersona} />
          <Route exact path="/generos/agregar" component={AgregarGenero} /> 
+         <Route exact path="/libro/agregar" component={AgregarLibro} /> 
       </Router>
 
 

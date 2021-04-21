@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom'
 export default function Libro(props) {
 
 
@@ -21,12 +21,12 @@ export default function Libro(props) {
         <div  >
 
             <h2>Libro</h2>
-
+            <Link to="/libro/agregar"> <h3> +Agregar libro(tooltip)</h3> </Link>
             {
                 listadoDeLibros.map((libro) => <div key={libro.id}>
                     <ul>
 
-                        <li>  {libro.nombre}  </li>
+                        <li>   {libro.nombre}  </li>
 
 
                     </ul>
