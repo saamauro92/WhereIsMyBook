@@ -10,10 +10,10 @@ function reducer(state = estadoInicial, action) {
     const nuevoState = JSON.parse(JSON.stringify(state));
     switch (action.type) {
         case 'VER_PERSONAS':
-            nuevoState.persona = action.listado;
+            nuevoState.persona = action.personaState;
             return nuevoState;
         case 'AGREGAR_UNA_PERSONA':
-            nuevoState.persona.push(action.listado);
+            nuevoState.persona.push(action.personaState);
             return nuevoState;
 
         case 'REMOVER_PERSONA':

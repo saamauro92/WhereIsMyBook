@@ -4,15 +4,13 @@ import axios from 'axios';
 
 
 
-export default function AgregarPersona(props) {
+export default function AgregarGenero(props) {
 
 
     const dispatch = useDispatch();
     const [form, setForm] = React.useState({
         nombre: '',
-        apellido: '',
-        email: "",
-        alias: ""
+
     });
 
 
@@ -24,24 +22,6 @@ export default function AgregarPersona(props) {
     };
 
 
-    const handleSurnameChange = (e) => {
-        const newForm = JSON.parse(JSON.stringify(form));
-        newForm.apellido = e.target.value;
-        setForm(newForm);
-    };
-
-    const handleEmailChange = (e) => {
-        const newForm = JSON.parse(JSON.stringify(form));
-        newForm.email = e.target.value;
-        setForm(newForm);
-    };
-
-    const handleUsernameChange = (e) => {
-        const newForm = JSON.parse(JSON.stringify(form));
-        newForm.alias = e.target.value;
-        setForm(newForm);
-    };
-
 
     const handleCancel = () => {
         props.history.push('/persona');
@@ -51,7 +31,7 @@ export default function AgregarPersona(props) {
     const handleSave = async () => {
         try {
             const respuesta = await axios.post(`http://localhost:3000/persona`, form);
-            dispatch({ type: 'AGREGAR_UNA_PERSONA', personaAAgregar: respuesta.data });
+            dispatch({ type: 'AGREGAR_UNA_PERSONA', listado: respuesta.data });
             props.history.push('/persona');
         } catch (e) {
             console.log('problema con el servidor')
@@ -63,14 +43,12 @@ export default function AgregarPersona(props) {
     return (
 
         <div>
-            <h2> Agregar Persona</h2>
+            <h2> Agregar Genero</h2>
 
             <form action="">
 
                 <input type="text" value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
-                <input type="text" value={form.apellido} onChange={handleSurnameChange} placeholder="Apellido" />
-                <input type="text" value={form.email} onChange={handleEmailChange} placeholder="Email" />
-                <input type="text" value={form.alias} onChange={handleUsernameChange} placeholder="Alias" />
+
 
 
                 <button onClick={handleSave}>Guardar</button>

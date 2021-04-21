@@ -20,7 +20,7 @@ function App() {
   React.useEffect(async () => {
 
     const respuesta = await axios.get('http://localhost:3000/persona');
-    dispatch({ type: 'VER_PERSONAS', listado: respuesta.data });
+    dispatch({ type: 'VER_PERSONAS', personaState: respuesta.data });
 
 
   }, []);

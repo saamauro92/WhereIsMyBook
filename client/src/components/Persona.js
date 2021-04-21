@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 export default function Persona(props) {
     const dispatch = useDispatch();
 
-    const listado = useSelector((state) => state.persona);
+    const personaState = useSelector((state) => state.persona);
     const [textoEditable, setTextoEditable] = react.useState(false);
     const [toggled, setToggled] = react.useState(true);
 
@@ -48,7 +48,7 @@ export default function Persona(props) {
 
             <div className="container">
 
-                {listado.map((persona) =>
+                {personaState.map((persona) =>
 
                     <div key={persona.id} className={toggled ? "card" : "card_selected"}>
                         <ul>
