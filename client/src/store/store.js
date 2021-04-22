@@ -15,9 +15,13 @@ function reducer(state = estadoInicial, action) {
         case 'AGREGAR_UNA_PERSONA':
             nuevoState.persona.push(action.storeActionPersona);
             return nuevoState;
+        case 'MODIFICAR_UNA_PERSONA':       
+          nuevoState.persona = action.storeModificarPersona; /* nuevoState.filter((unaPersona) => unaPersona.id !== action.storeModificarPersona); */    
+          return nuevoState;
 
         case 'REMOVER_PERSONA':
             nuevoState.persona = nuevoState.filter((unaPersona) => unaPersona.id !== action.idPersonaARemover);
+           
             return nuevoState;
 
         case 'VER_LIBROS':

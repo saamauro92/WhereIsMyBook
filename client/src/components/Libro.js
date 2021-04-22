@@ -7,7 +7,7 @@ export default function Libro(props) {
 
     const dispatch = useDispatch();
     const listadoDeLibros = useSelector((state) => state.libro);
-
+    const listadoPersonas = useSelector((state) => state.persona);
     React.useEffect(async () => {
 
 
@@ -26,7 +26,8 @@ export default function Libro(props) {
                 listadoDeLibros.map((libro) => <div key={libro.id}>
                     <ul>
 
-                        <li>   {libro.nombre}  </li>
+                        <li>  {libro.nombre} <br/> 
+                              </li>
 
 
                     </ul>

@@ -12,6 +12,7 @@ import AgregarPersona from './components/AgregarPersona';
 import AgregarGenero from './components/AgregarGenero';
 import AgregarLibro from './components/AgregarLibro';
 
+
 function App() {
 
 
@@ -44,7 +45,7 @@ function App() {
 
 
         <Route exact path="/" component={Home} />
-        <Route exact path="/persona" component={Persona} />
+     <Route exact path="/persona" component={Persona} />
         <Route exact path="/libro" component={Libro} />
         <Route exact path="/generos" component={Generos} />
 
