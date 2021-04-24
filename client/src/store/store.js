@@ -15,12 +15,12 @@ function reducer(state = estadoInicial, action) {
         case 'AGREGAR_UNA_PERSONA':
             nuevoState.persona.push(action.storeActionPersona);
             return nuevoState;
-        case 'MODIFICAR_UNA_PERSONA':       
-          nuevoState.persona = nuevoState.findIndex((unaPersona) => unaPersona.id !== action.storeAModificar);
-          return nuevoState
+        case 'MODIFICAR_UNA_PERSONA':   
+     nuevoState.persona = nuevoState.persona.findIndex((unaPersona) => unaPersona.id !== action.idPersonaAModificar);
+              return nuevoState;
 
         case 'REMOVER_PERSONA':
-            nuevoState.persona = nuevoState.filter((unaPersona) => unaPersona.id !== action.idPersonaARemover);
+            nuevoState.persona = nuevoState.persona.filter((unaPersona) => unaPersona.id !== action.idPersonaARemover);
            
             return nuevoState;
 

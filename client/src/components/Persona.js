@@ -39,8 +39,8 @@ function UnaPersona(props) {
     const SaveChange = async (idAModificar) => {
         try {
             const respuesta = await axios.put(`http://localhost:3000/persona/${idAModificar}`, form);
-            dispatch({ type: 'MODIFICAR_UNA_PERSONA', storeAModificar: idAModificar });
-            if(respuesta.status===204 || respuesta.status===200);           
+            dispatch({ type: 'MODIFICAR_UNA_PERSONA', idPersonaAModificar: idAModificar });
+                  
             props.history.push('/persona');
          
         } catch (e) {
