@@ -4,7 +4,10 @@ const estadoInicial = {
     persona: [],
     libro: [],
     categoria: [],
+    personaPrestada: [],
 };
+
+
 
 function reducer(state = estadoInicial, action) {
     const nuevoState = JSON.parse(JSON.stringify(state));
@@ -15,13 +18,14 @@ function reducer(state = estadoInicial, action) {
         case 'AGREGAR_UNA_PERSONA':
             nuevoState.persona.push(action.storeActionPersona);
             return nuevoState;
-        case 'MODIFICAR_UNA_PERSONA':   
-     nuevoState.persona = nuevoState.persona.findIndex((unaPersona) => unaPersona.id !== action.idPersonaAModificar);
-              return nuevoState;
+        case 'MODIFICAR_UNA_PERSONA':
+            nuevoState.persona = nuevoState.persona.findIndex((unaPersona) => unaPersona.id !== action.idPersonaAModificar);
+
+            return nuevoState
 
         case 'REMOVER_PERSONA':
             nuevoState.persona = nuevoState.persona.filter((unaPersona) => unaPersona.id !== action.idPersonaARemover);
-           
+
             return nuevoState;
 
         case 'VER_LIBROS':
@@ -38,6 +42,9 @@ function reducer(state = estadoInicial, action) {
 
         case 'AGREGAR_CATEGORIA':
             nuevoState.categoria.push(action.storeActionCategoria);
+            return nuevoState;
+        case 'PRESTADO_A':
+            nuevoState.personaPrestada = action.idPersonaPrestada;
             return nuevoState;
 
 
