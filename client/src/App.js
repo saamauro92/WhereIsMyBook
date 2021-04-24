@@ -16,14 +16,17 @@ import AgregarLibro from './components/AgregarLibro';
 function App() {
 
 
+  const VerPersonas = async() => {
+    const respuesta = await axios.get('http://localhost:3000/persona');
+    dispatch({ type: 'VER_PERSONAS', listadoPersona: respuesta.data });
+  }
 
   const dispatch = useDispatch();
 
 
   React.useEffect(async () => {
 
-    const respuesta = await axios.get('http://localhost:3000/persona');
-    dispatch({ type: 'VER_PERSONAS', listadoPersona: respuesta.data });
+VerPersonas();
 
 
   }, []);

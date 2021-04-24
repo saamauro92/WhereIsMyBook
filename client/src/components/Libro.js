@@ -7,7 +7,7 @@ export default function Libro(props) {
 
     const dispatch = useDispatch();
     const listadoDeLibros = useSelector((state) => state.libro);
-    const listadoPersonas = useSelector((state) => state.persona);
+    
     React.useEffect(async () => {
 
 

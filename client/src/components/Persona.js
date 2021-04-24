@@ -21,7 +21,6 @@ function UnaPersona(props) {
         
     });
 
-    console.log(form)
 
     const handleBorrarPersona = async (idABorrar) => {
 
@@ -36,11 +35,14 @@ function UnaPersona(props) {
 
     }
 
+/// actualiza a la persona pero no cambia de pantalla. VER*
     const SaveChange = async (idAModificar) => {
         try {
             const respuesta = await axios.put(`http://localhost:3000/persona/${idAModificar}`, form);
-             dispatch({ type: 'MODIFICAR_UNA_PERSONA', storeModificarPersona: respuesta.data }); 
+            dispatch({ type: 'MODIFICAR_UNA_PERSONA', storeAModificar: idAModificar });
+            if(respuesta.status===204 || respuesta.status===200);           
             props.history.push('/persona');
+         
         } catch (e) {
             console.log('problema con el servidor')
         }
@@ -73,7 +75,7 @@ function UnaPersona(props) {
 
 
     return (
-        <div key={props.key} className={toggled ? "card" : "card_selected "}>
+        <div prop={props.id} className={toggled ? "card" : "card_selected "}>
 
 
             <ul>
@@ -85,6 +87,10 @@ function UnaPersona(props) {
                 <li >{props.email} </li>
                 <input type="text" className={toggled ? "boton_editar" : "boton_editar_visible"} value={form.alias} onChange={handleUsernameChange} placeholder="Alias" />
                 <li className={toggled ? "boton_editar_visible" : "boton_editar"}>{props.alias} </li>
+                <div className={toggled ? "boton_editar" : "boton_editar_visible"} >
+                    <button onClick={()=> SaveChange(props.id)} > GUARDAR</button>
+
+                </div>
             </ul>
 
             <div className="card_bottom">
@@ -93,17 +99,14 @@ function UnaPersona(props) {
                 <h6 onClick={editarFondo}>editar</h6>
                 <h6 onClick={() => handleBorrarPersona(props.id)}>eliminar</h6>
 
-                <div className={toggled ? "boton_editar" : "boton_editar_visible"}
-                >
-                    <button onClick={()=> SaveChange(props.id)} > GUARDAR</button>
-
-                </div>
+        
             </div>
 
 
         </div>
     )
 }
+
 
 
 export default function Persona(props) {
@@ -121,7 +124,8 @@ export default function Persona(props) {
             <div className="container">
 
 
-                {listadoPersonas.map(persona => <UnaPersona key={persona.id} nombre={persona.nombre} apellido={persona.apellido} email={persona.email} alias={persona.alias} id={persona.id} />)}
+                {listadoPersonas.map((persona, index)=> <UnaPersona key={index} id={persona.id} nombre={persona.nombre} apellido={persona.apellido} email={persona.email} alias={persona.alias}  />)}
+
 
             </div>
 
