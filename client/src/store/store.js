@@ -4,7 +4,6 @@ const estadoInicial = {
     persona: [],
     libro: [],
     categoria: [],
-    personaPrestada: [],
 };
 
 
@@ -33,6 +32,9 @@ function reducer(state = estadoInicial, action) {
             return nuevoState;
         case 'AGREGAR_LIBRO':
             nuevoState.libro.push(action.storeActionLibro);
+            return nuevoState;
+        case 'REMOVER_LIBRO':
+            nuevoState.libro = nuevoState.libro.filter((unLibro) => unLibro.id !== action.idLibroARemover);
             return nuevoState;
 
         case 'VER_CATEGORIA':
