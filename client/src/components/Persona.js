@@ -34,7 +34,7 @@ function UnaPersona(props) {
 
     }
 
-    /// actualiza a la persona pero no cambia de pantalla. VER*
+    /// actualiza a la persona pero no cambia de pantalla. VER PROBLEMA*
     const SaveChange = async (idAModificar) => {
         try {
             await axios.put(`http://localhost:3000/persona/${idAModificar}`, form);

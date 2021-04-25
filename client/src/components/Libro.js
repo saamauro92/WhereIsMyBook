@@ -43,7 +43,6 @@ function UnLibro(props) {
                         <h6 onClick={editarFondo}>editar</h6>
                         <h6 onClick={() => handleBorrarLibro(props.id)} >eliminar</h6>
 
-
                     </div>
                 </div>
             </div>

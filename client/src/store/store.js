@@ -19,13 +19,12 @@ function reducer(state = estadoInicial, action) {
             return nuevoState;
         case 'MODIFICAR_UNA_PERSONA':
             nuevoState.persona = nuevoState.persona.findIndex((unaPersona) => unaPersona.id !== action.idPersonaAModificar);
-
             return nuevoState
 
         case 'REMOVER_PERSONA':
             nuevoState.persona = nuevoState.persona.filter((unaPersona) => unaPersona.id !== action.idPersonaARemover);
-
             return nuevoState;
+
 
         case 'VER_LIBROS':
             nuevoState.libro = action.storeActionLibros;
@@ -37,13 +36,15 @@ function reducer(state = estadoInicial, action) {
             nuevoState.libro = nuevoState.libro.filter((unLibro) => unLibro.id !== action.idLibroARemover);
             return nuevoState;
 
+
         case 'VER_CATEGORIA':
             nuevoState.categoria = action.listadoDeCategorias;
             return nuevoState;
-
-
         case 'AGREGAR_CATEGORIA':
             nuevoState.categoria.push(action.storeActionCategoria);
+            return nuevoState;
+        case 'REMOVER_CATEGORIA':
+            nuevoState.categoria = nuevoState.categoria.filter((unaCategoria) => unaCategoria.id !== action.idGeneroARemover);
             return nuevoState;
         case 'PRESTADO_A':
             nuevoState.personaPrestada = action.idPersonaPrestada;

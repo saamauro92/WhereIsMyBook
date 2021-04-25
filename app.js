@@ -125,8 +125,22 @@ APP.route('/persona/:id')
     };
   });
 
+  //CATEGORIA INNER JOIN
+
+  APP.route('/categoria/libros-asociados')
+  .get(async (req, res) => {
+    //OK //GET '/categoria' retorna: status 200  y [{id:numerico, nombre:string}]  - status: 413 y []
+    try {
+      let query = 'SELECT libro.nombre,  libro.categoria_id  FROM libro INNER JOIN categoria ON libro.categoria_id=categoria.id where libro.id;',
+        data = await QY(query);
+      res.status(200).send(data);
+    } catch (error) {
+      res.status(413).send({ "mensaje": error.message });
+    };
+  })
 /*
 CATEGORIA
+
 No se debe implementar el PUT
 */
 
