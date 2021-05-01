@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react'
+import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+
+
 
 
 
 export default function AgregarLibro(props) {
-    const categorias = useSelector((state) => state.categoria);
+
+    const categoria = useSelector((state) => state.categoria);
     const listadoPersonas = useSelector((state) => state.persona);
   
 
@@ -64,39 +67,46 @@ console.log(form);
 
 
     return (
+        <>
 
-        <div>
-            <h2> Agregar Libro</h2>
-
-
-
-            <input type="text" value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
-            <input type="text" value={form.descripcion} onChange={handleDescripcionChange} placeholder="Descripcion" />
-
-
-    <select value={props.categoria_id} onChange={handleCategoriaChange}>
-
-    <option value="" disabled selected hidden>Selecionar Categoria</option>
-    
- {categorias.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
-    </select>
-    <br/>
+            <div className="formulario_persona">
 
 
 
-            <select value={props.persona_id}  onChange={handlePersonaChange} >
+                <div>
+                    <label >Nombre</label>
+                    <input type="text" value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
+                </div>
+                <div >
+                    <label >Descripcion</label>
+                    <input type="text" value={form.descripcion} onChange={handleDescripcionChange} placeholder="Descripcion" />
+                </div>
+                <div >
+                    <label >Genero</label>
+                    <select value={props.categoria_id} onChange={handleCategoriaChange}>
+
+<option value="" disabled selected hidden>Selecionar Categoria</option>
+
+{categoria.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
+</select>
+                </div>
+                <div >
+                    <label >Persona</label>
+                    <select value={props.persona_id}  onChange={handlePersonaChange} >
             <option value="" disabled selected hidden>Selecionar Persona</option>
             <option value=""  >Sin prestar</option>
                 {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
             </select>
 
-            
-            <button onClick={handleSave}>Guardar</button>
+                </div>
+                <button onClick={handleSave}>Guardar</button>
             <button onClick={handleCancel}>Cancelar</button>
 
 
+            </div>
 
-
-        </div>
+        </>
     )
 }
+
+

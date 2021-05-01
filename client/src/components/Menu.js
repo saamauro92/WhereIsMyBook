@@ -1,22 +1,33 @@
-import react from 'react';
-import { Link } from 'react-router-dom'
+import React from 'react'
+import { Link } from "react-router-dom";
 
-export default function Menu() {
 
+
+function Menu() {
     return (
+        <>
+            <div className="menu_bar">
 
-        <div className="menu" >
+                <div className="menu_contenedor">
+                    <div className="menu_titulo">
+                        <h2>UTN TP FINAL</h2>
+                    </div>
 
-            <div className="logo">
-                <Link to="/">  <h2>TP FINAL UTN</h2> </Link>
+                    <div >
+                        <ul className="menu_links">
+                            <Link to="/persona"><li> Persona</li>  </Link>
+                            <Link to="/libro"> <li>Libro</li> </Link>
+                            <li>Categoria</li>
+                        </ul>
+
+                    </div>
+
+                </div>
             </div>
 
-            <ul>
-                <Link to="/persona"><li> Persona</li> </Link>
-                <Link to="/libro">  <li> Libro</li></Link>
-                <Link to="/generos">  <li> Generos</li></Link>
-            </ul>
 
-        </div>
+        </>
     )
 }
+
+export default Menu

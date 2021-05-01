@@ -1,26 +1,11 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
-
+import { Link } from "react-router-dom"
+import axios from 'axios';
 
 function UnaPersona(props) {
+    const [toggle, setToggle] = useState(true);
     const dispatch = useDispatch();
-    const [toggled, setToggled] = useState(true);
-
-    const editarFondo = () => {
-        setToggled(!toggled)
-    }
-
-
-    const [form, setForm] = useState({
-        nombre: '',
-        apellido: '',
-        alias: ''
-
-    });
-
-
     const handleBorrarPersona = async (idABorrar) => {
 
         try {
@@ -34,45 +19,16 @@ function UnaPersona(props) {
 
     }
 
-    /// actualiza a la persona pero no cambia de pantalla. VER PROBLEMA*
-    const SaveChange = async (idAModificar) => {
-        try {
-            await axios.put(`http://localhost:3000/persona/${idAModificar}`, form);
 
 
 
-            dispatch({ type: 'MODIFICAR_UNA_PERSONA', idPersonaAModificar: idAModificar });
+    const handleLibro = (idPersona) => {
+
+        setToggle(false);
 
 
+    }
 
-            props.history.push('/persona');
-
-
-        } catch (e) {
-
-            console.log('problema con el servidor')
-        }
-    };
-
-
-    const handleNameChange = (e) => {
-        const newForm = JSON.parse(JSON.stringify(form));
-        newForm.nombre = e.target.value;
-        setForm(newForm);
-    };
-
-
-    const handleSurnameChange = (e) => {
-        const newForm = JSON.parse(JSON.stringify(form));
-        newForm.apellido = e.target.value;
-        setForm(newForm);
-    };
-
-    const handleUsernameChange = (e) => {
-        const newForm = JSON.parse(JSON.stringify(form));
-        newForm.alias = e.target.value;
-        setForm(newForm);
-    };
 
 
 
@@ -81,35 +37,50 @@ function UnaPersona(props) {
 
 
     return (
+
         <>
 
-            <div prop={props.id} className={toggled ? "card" : "card_selected "}>
+            <div id={props.id} >
+
+                <div className="listado_contenedor">
+                    <div className="lista">
+
+                        <div className="lista_id">
+                            {props.id}
+                        </div>
+
+                        <div className="lista_nombre">
+                            {props.nombre}
+                        </div>
+                        <div className="lista_apellido">
+                            {props.apellido}
+                        </div>
+                        <div className="lista_email">
+                            {props.email}
+                        </div>
+                        <div className="lista_alias">
+                            {props.alias}
+                        </div>
+                        <div className="lista_editar">
+                            <Link to={"/persona/editar/" + props.id}> Editar</Link>
+                        </div>
+                        <div className="lista_editar">
+                            <Link onClick={() => handleBorrarPersona(props.id)}> Borrar</Link>
+                        </div>
 
 
+                        <div className="lista_editar">
+                            <Link onClick={() => handleLibro(props.id)}> Libro</Link>
 
-                <ul>
-                    <li >Id: {props.id} </li>
-                    <input type="text" className={toggled ? "boton_editar" : "boton_editar_visible"} value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
-                    <input type="text" className={toggled ? "boton_editar" : "boton_editar_visible"} value={form.apellido} onChange={handleSurnameChange} placeholder="Apellido" />
-                    <li value={form.nombre} className={toggled ? "boton_editar_visible" : "boton_editar"} onChange={handleNameChange}> {props.nombre} </li>
-                    <li value={form.apellido} className={toggled ? "boton_editar_visible" : "boton_editar"} onChange={handleSurnameChange} >{props.apellido} </li>
-                    <li >{props.email} </li>
-                    <input type="text" className={toggled ? "boton_editar" : "boton_editar_visible"} value={form.alias} onChange={handleUsernameChange} placeholder="Alias" />
-                    <li className={toggled ? "boton_editar_visible" : "boton_editar"}>{props.alias} </li>
-                    <div className={toggled ? "boton_editar" : "boton_editar_visible"} >
-                        <button onClick={() => SaveChange(props.id)} > GUARDAR</button>
+
+                        </div>
+                        <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
+                            {props.libro}
+                        </div>
+
+
 
                     </div>
-                </ul>
-
-
-                <div className="card_bottom">
-
-                    <h6>libro</h6>
-                    <h6 onClick={editarFondo}>editar</h6>
-                    <h6 onClick={() => handleBorrarPersona(props.id)}>eliminar</h6>
-
-
                 </div>
 
 
@@ -122,30 +93,36 @@ function UnaPersona(props) {
 
 
 
+
+
 export default function Persona(props) {
 
-
     const listadoPersonas = useSelector((state) => state.persona);
+    const listadoDeLibros = useSelector((state) => state.libro);
 
+    const datosJuntos = listadoPersonas.map(personaB => {
+        const libro = listadoDeLibros.find(libroB => libroB.persona_id == personaB.id)
+        return { id: personaB.id, nombre: personaB.nombre, apellido: personaB.apellido, email: personaB.email, alias: personaB.alias, nombreLibro: libro ? libro.nombre : "No Posee libro" }
+
+    })
 
 
     return (
+        <>
+            <div>
+                <h2>Persona</h2>
 
-        <div>
+                <Link to="/persona/agregar">  <h3>+ agregar persona</h3> </Link>
 
-            <h2> Persona</h2>
-
-            <Link to="/persona/agregar"> <h3> +Agregar Persona(tooltip)</h3> </Link>
-            <div className="container">
-
-
-
-                {listadoPersonas.map((persona, index) => <UnaPersona key={index} id={persona.id} render={true} nombre={persona.nombre} apellido={persona.apellido} email={persona.email} alias={persona.alias} />)}
-
+                {
+                    datosJuntos.map((persona, index) => <UnaPersona key={index} id={persona.id} render={true} nombre={persona.nombre} apellido={persona.apellido} email={persona.email} libro={persona.nombreLibro} alias={persona.alias} />)
+                }
 
 
             </div>
 
-        </div>
+        </>
     )
 }
+
+

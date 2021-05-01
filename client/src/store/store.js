@@ -18,7 +18,13 @@ function reducer(state = estadoInicial, action) {
             nuevoState.persona.push(action.storeActionPersona);
             return nuevoState;
         case 'MODIFICAR_UNA_PERSONA':
-            nuevoState.persona = nuevoState.persona.findIndex((unaPersona) => unaPersona.id !== action.idPersonaAModificar);
+            const { id, nombre, apellido, alias } = action.idPersonaAModificar;
+            const personaAModificar = nuevoState.persona.find(persona => persona.id === id)
+            if (personaAModificar) {
+                personaAModificar.nombre = nombre
+                personaAModificar.apellido = apellido
+                personaAModificar.alias = alias
+            }
             return nuevoState
 
         case 'REMOVER_PERSONA':
@@ -49,7 +55,6 @@ function reducer(state = estadoInicial, action) {
         case 'PRESTADO_A':
             nuevoState.personaPrestada = action.idPersonaPrestada;
             return nuevoState;
-
 
         default:
             return state;
