@@ -14,11 +14,12 @@ function reducer(state = estadoInicial, action) {
         case 'VER_PERSONAS':
             nuevoState.persona = action.listadoPersona;
             return nuevoState;
+
         case 'AGREGAR_UNA_PERSONA':
             nuevoState.persona.push(action.storeActionPersona);
             return nuevoState;
         case 'MODIFICAR_UNA_PERSONA':
-            const { id, nombre, apellido, alias } = action.idPersonaAModificar;
+            var { id, nombre, apellido, alias } = action.idPersonaAModificar;
             const personaAModificar = nuevoState.persona.find(persona => persona.id === id)
             if (personaAModificar) {
                 personaAModificar.nombre = nombre
@@ -38,9 +39,36 @@ function reducer(state = estadoInicial, action) {
         case 'AGREGAR_LIBRO':
             nuevoState.libro.push(action.storeActionLibro);
             return nuevoState;
+        case 'DEVOLVER_LIBRO':
+            const libroID = action.idLibroADevolver;
+            const personaADevolver = nuevoState.libro.find(libro => libro.id === libroID)
+            if (personaADevolver) {
+                personaADevolver.persona_id = ""
+            }
+            return nuevoState
+
+        case 'MODIFICAR_UN_LIBRO':
+            var { id, descripcion } = action.idLibroAModificar;
+            const libroAModificar = nuevoState.libro.find(libro => libro.id === id)
+            if (libroAModificar) {
+                libroAModificar.descripcion = descripcion
+
+            }
+        /*  
+              case 'PRESTAR_UN_LIBRO':
+                 var libroid = action.idLibroAPrestar;
+                    const libroAPrestar = nuevoState.libro.find(libro => libro.id === libroid)
+                    if (libroAModificar)  {
+                        libroAModificar.persona_id  = 
+        
+                    } */
+
+
         case 'REMOVER_LIBRO':
             nuevoState.libro = nuevoState.libro.filter((unLibro) => unLibro.id !== action.idLibroARemover);
             return nuevoState;
+
+
 
 
         case 'VER_CATEGORIA':

@@ -30,12 +30,6 @@ function UnaPersona(props) {
     }
 
 
-
-
-
-
-
-
     return (
 
         <>
@@ -72,11 +66,11 @@ function UnaPersona(props) {
                         <div className="lista_editar">
                             <Link onClick={() => handleLibro(props.id)}> Libro</Link>
 
-
-                        </div>
-                        <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
+                            <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
                             {props.libro}
                         </div>
+                        </div>
+                
 
 
 

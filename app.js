@@ -314,9 +314,9 @@ APP.route('/libro/:id')
       if (data.length === 0) {
         throw new Error("no se encuentra ese libro");
       };
-      if (req.body.nombre || req.body.categoria_id || req.body.persona_id) {
+/*       if (req.body.nombre || req.body.categoria_id || req.body.persona_id) {
         throw new Error("solo se puede modificar la descripcion del libro");
-      };
+      }; */ //modificado desde front end
       if (!req.body.descripcion) {
         throw new Error("faltan datos");
       };

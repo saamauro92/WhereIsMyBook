@@ -9,6 +9,8 @@ import AgregarPersona from './components/persona/AgregarPersona';
 import EditarPersona from './components/persona/EditarPersona';
 import Libro from './components/libro/Libro';
 import AgregarLibro from './components/libro/AgregarLibro';
+import PrestarLibro from './components/libro/PrestarLibro';
+import EditarLibro from './components/libro/EditarLibro';
 
 
 function App(props) {
@@ -59,8 +61,10 @@ function App(props) {
         <Route exact path="/persona/agregar" component={AgregarPersona} />
         <Route exact path="/persona/editar/:id" component={EditarPersona} />
         <Route exact path="/libro" component={Libro} />
+        <Route exact path="/libro/editar/:id" component={EditarLibro} />
         <Route exact path="/libro/agregar" component={AgregarLibro} />
-    
+        <Route exact path="/libro/prestar/:id" component={PrestarLibro} />
+  
       </Router>
 
 
