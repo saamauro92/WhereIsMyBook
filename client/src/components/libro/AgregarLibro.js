@@ -10,7 +10,7 @@ export default function AgregarLibro(props) {
 
     const categoria = useSelector((state) => state.categoria);
     const listadoPersonas = useSelector((state) => state.persona);
-  
+
 
     const [form, setForm] = React.useState({
         nombre: '',
@@ -20,7 +20,7 @@ export default function AgregarLibro(props) {
     });
 
     const dispatch = useDispatch();
-console.log(form);
+    console.log(form);
 
     const handleNameChange = (e) => {
         const newForm = JSON.parse(JSON.stringify(form));
@@ -85,22 +85,22 @@ console.log(form);
                     <label >Genero</label>
                     <select value={props.categoria_id} onChange={handleCategoriaChange}>
 
-<option value="" disabled selected hidden>Selecionar Categoria</option>
+                        <option value="" disabled selected hidden>Selecionar Categoria</option>
 
-{categoria.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
-</select>
+                        {categoria.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
+                    </select>
                 </div>
                 <div >
-                    <label >Persona</label>
-                    <select value={props.persona_id}  onChange={handlePersonaChange} >
-            <option value="" disabled selected hidden>Selecionar Persona</option>
-            <option value=""  >Sin prestar</option>
-                {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
-            </select>
+                    <label >Persona a Prestar</label>
+                    <select value={props.persona_id} onChange={handlePersonaChange} >
+                        <option value="" disabled selected hidden>Selecionar Persona</option>
+                        <option value=""  >Sin prestar</option>
+                        {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
+                    </select>
 
                 </div>
                 <button onClick={handleSave}>Guardar</button>
-            <button onClick={handleCancel}>Cancelar</button>
+                <button onClick={handleCancel}>Cancelar</button>
 
 
             </div>

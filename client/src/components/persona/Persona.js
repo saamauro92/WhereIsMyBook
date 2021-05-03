@@ -10,7 +10,7 @@ function UnaPersona(props) {
 
         try {
 
-            await axios.delete(`http://localhost:5000/persona/${idABorrar}`);
+            await axios.delete(`http://localhost:3000/persona/${idABorrar}`);
             dispatch({ type: 'REMOVER_PERSONA', idPersonaARemover: idABorrar });
             props.history.push('/persona');
         } catch (e) {
@@ -24,7 +24,7 @@ function UnaPersona(props) {
 
     const handleLibro = (idPersona) => {
 
-        setToggle(false);
+        setToggle(!toggle);
 
 
     }

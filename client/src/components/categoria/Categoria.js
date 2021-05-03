@@ -11,7 +11,7 @@ function UnaCategoria(props) {
         try {
 
             await axios.delete(`http://localhost:3000/categoria/${idABorrar}`);
-            dispatch({ type: 'REMOVER_CATEGORIA', idCategoriaARemover: idABorrar });
+            dispatch({ type: 'REMOVER_CATEGORIA', idGeneroARemover: idABorrar });
             props.history.push('/categoria');
         } catch (e) {
             console.log("error en el servidor")
@@ -20,8 +20,7 @@ function UnaCategoria(props) {
     }
 
     const handleLibro = (idCategoria) => {
-
-        setToggle(false);
+        setToggle(!toggle);
 
 
     }

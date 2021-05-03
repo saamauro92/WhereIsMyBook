@@ -43,15 +43,13 @@ export default function EditarCategoria(props) {
         try {
             console.log(form)
             const respuesta = await axios.put('http://localhost:3000/categoria/' + params.id, form);
-            dispatch({ type: 'MODIFICAR_UNA_CATEGORIA', idCategoriaAModificar: respuesta.data });
+            dispatch({ type: 'MODIFICAR_UNA_CATEGORIA', idCategoriaAModificar: respuesta.data});
             props.history.push('/categoria');
 
         } catch (e) {
 
 
-
         }
-
 
 
     }

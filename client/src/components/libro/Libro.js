@@ -16,7 +16,7 @@ function UnLibro(props) {
 
     const handleLibro = (idPersona) => {
 
-        setToggle(false);
+        setToggle(!toggle);
 
     }
 
@@ -81,7 +81,7 @@ function UnLibro(props) {
 
                         <div className="lista_editar">
                             <Link onClick={() => handleLibro(props.id)} > Prestado a</Link>
-                            <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
+                            <div className={ toggle ? "mostrar-libro-no" :  "mostrar-libro-si"}>
                                 {props.alias}
                             </div>
 
@@ -95,9 +95,10 @@ function UnLibro(props) {
                         <div>
 
                         <div className="lista_editar">
-                            <Link /* to onClick={() => handleDevolver(props.id)} */>Prestar a </Link>
 
-                        <PrestarLibro id={props.id}/>
+               {/*       <Link  to={"/libro/prestar/" + props.id} > >Prestar a  </Link>  */}
+{/*  <p>Prestar a</p> */}
+                  <PrestarLibro key={props.id} id={props.id}/> 
                         </div>
 
                         </div>
@@ -122,7 +123,7 @@ function UnLibro(props) {
 
 export default function Libro(props) {
 
-    const dispatch = useDispatch();
+
     const listadoDeLibros = useSelector((state) => state.libro);
     const listadoPersonas = useSelector((state) => state.persona);
 

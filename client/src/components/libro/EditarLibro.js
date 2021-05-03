@@ -72,7 +72,6 @@ export default function EditarLibro(props) {
             <div className="formulario_persona">
 
 
-
                 <div>
                     <label >Descripcion del libro</label>
                     <input type="text" name="descripcion" value={form.descripcion} onChange={handleDescriptionChange} />

@@ -12,18 +12,17 @@ export default function PrestarLibro(props) {
     const listadoDeLibros = useSelector((state) => state.libro);
     const dispatch = useDispatch();
 
+const idDelLibro = props.id;
 
-
-    let [form, setForm] = React.useState({
-        id:"",
+    const [form, setForm] = React.useState({
         persona_id: "",
     });
 
 
 
-/*     const buscarLibroPorId = async (id) => {
+   const buscarLibroPorId = async (idLibro) => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/libro/' + id)
+            const respuesta = await axios.get('http://localhost:3000/libro/' + idLibro)
             setForm(respuesta.data)
 
         } catch (e) {
@@ -31,10 +30,11 @@ export default function PrestarLibro(props) {
         }
     }
 
-    React.useEffect((props) => {
-        if (props.id) return;
-        buscarLibroPorId(props.id)
-    }, []) */
+
+    React.useEffect(() => {
+        if (!idDelLibro) return;
+        buscarLibroPorId(idDelLibro)
+    }, [idDelLibro]) 
 
     const handlePersonaChange = (e) => {
         const newForm = JSON.parse(JSON.stringify(form));
@@ -46,31 +46,28 @@ export default function PrestarLibro(props) {
     //PRESTAR
 
 
-    const onSave = async (idAmodificar) => {
-        try {
-            console.log(form)
-            const respuesta = await axios.put('http://localhost:3000/libro/prestar/' + idAmodificar, form);
-            console.log(respuesta)
-           dispatch({ type: 'PRESTAR_UN_LIBRO', idLibroAPrestar: respuesta.data});  
-            props.history.push('/libro');
+    const onSave = async (idAModificar) => {
 
+        try {
+            const respuesta = await axios.put('http://localhost:3000/libro/prestar/' + idAModificar, form);
+            dispatch({ type: 'PRESTAR', idAPrestar: form });
+            props.history.push('/libro');
+            console.log("RESPUESTAA ", form, respuesta)
         } catch (e) {
         }
 
     }
 
 
-
-
     return (
         <div>
-                    <select value={props.persona_id}  onChange={handlePersonaChange} >
-            <option value="" disabled selected hidden> {form.persona_id} </option>
-            <option value=""  >Sin prestar</option>
-                {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
+            <select value={props.persona_id} onChange={handlePersonaChange} >
+                <option value="" disabled selected hidden> Elegir persona  </option>
+
+                {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.alias} </option>)}
             </select>
             <button onClick={()=> onSave(props.id)}> Prestar</button>
-        
+
 
         </div>
     )

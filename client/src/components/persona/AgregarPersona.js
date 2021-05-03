@@ -53,7 +53,7 @@ export default function AgregarPersona(props) {
 
     const onSave = async () => {
         try {
-            const respuesta = await axios.post(`http://localhost:5000/persona`, form);
+            const respuesta = await axios.post(`http://localhost:3000/persona`, form);
             dispatch({ type: 'AGREGAR_UNA_PERSONA', storeActionPersona: respuesta.data });
             props.history.push('/persona');
 
