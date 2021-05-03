@@ -4,18 +4,19 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Menu from './components/Menu';
-import Persona from './components/Persona';
+import Persona from './components/persona/Persona';
 import AgregarPersona from './components/persona/AgregarPersona';
 import EditarPersona from './components/persona/EditarPersona';
 import Libro from './components/libro/Libro';
 import AgregarLibro from './components/libro/AgregarLibro';
 import PrestarLibro from './components/libro/PrestarLibro';
 import EditarLibro from './components/libro/EditarLibro';
+import Categoria from './components/categoria/Categoria';
+import AgregarCategoria from './components/categoria/AgregarCategoria';
+import EditarCategoria from './components/categoria/EditarCategoria';
 
 
 function App(props) {
-
-
 
   const VerPersonas = async () => {
     const respuesta = await axios.get('http://localhost:3000/persona');
@@ -39,7 +40,7 @@ function App(props) {
 
     VerPersonas();
     VerLibros();
-    VerGeneros();
+    VerGeneros();    
 
 
   }, []);
@@ -64,7 +65,9 @@ function App(props) {
         <Route exact path="/libro/editar/:id" component={EditarLibro} />
         <Route exact path="/libro/agregar" component={AgregarLibro} />
         <Route exact path="/libro/prestar/:id" component={PrestarLibro} />
-  
+        <Route exact path="/categoria" component={Categoria} />
+        <Route exact path="/categoria/agregar" component={AgregarCategoria} />
+        <Route exact path="/categoria/editar/:id" component={EditarCategoria} />  
       </Router>
 
 

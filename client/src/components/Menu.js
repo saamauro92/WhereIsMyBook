@@ -17,7 +17,7 @@ function Menu() {
                         <ul className="menu_links">
                             <Link to="/persona"><li> Persona</li>  </Link>
                             <Link to="/libro"> <li>Libro</li> </Link>
-                            <li>Categoria</li>
+                            <Link to="/categoria"> <li>Categoria</li> </Link>                            
                         </ul>
 
                     </div>
