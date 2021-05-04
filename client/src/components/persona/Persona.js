@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom"
 import axios from 'axios';
 import EditarPersona from './EditarPersona';
 import AgregarPersona from './AgregarPersona';
@@ -25,7 +24,7 @@ function UnaPersona(props) {
 
         try {
 
-        const respuesta = await axios.delete(`http://localhost:3000/persona/${idABorrar}`);
+         await axios.delete(`http://localhost:3000/persona/${idABorrar}`);
             dispatch({ type: 'REMOVER_PERSONA', idPersonaARemover: idABorrar });
             props.history.push('/persona');
         } catch (e) {

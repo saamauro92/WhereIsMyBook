@@ -65,7 +65,7 @@ const [enviado, setEnviado] = useState(false);
             let respuesta
      
         try {
-            const respuesta = await axios.post(`http://localhost:3000/persona`, form);
+             respuesta = await axios.post(`http://localhost:3000/persona`, form);
             dispatch({ type: 'AGREGAR_UNA_PERSONA', storeActionPersona: respuesta.data });
          
 

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+
 
 
 
 export default function EditarPersona(props) {
 
-    const params = useParams();
+
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         nombre: '',
@@ -19,12 +19,9 @@ export default function EditarPersona(props) {
 
     const setModal = props.setModal;
     const [errorMessage, setErrorMessage] = useState("");
-    const [validation, setValidation] = useState(false);
+
     const [enviado, setEnviado] = useState(false);
 
-    const handleCancel = () => {
-        props.history.push('/persona');
-    };
 
     const IDAMODIFICAR = props.id;
 

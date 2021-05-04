@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+
 
 
 
 export default function EditarCategoria(props) {
     const [errorMessage, setErrorMessage] = useState("");
-    const params = useParams();
     const [enviado, setEnviado] = useState(false);
     const IDAMODIFICAR = props.id;
     const setModal = props.setModal;
@@ -69,7 +68,7 @@ export default function EditarCategoria(props) {
             try {
 
                 console.log(form)
-                const respuesta = await axios.put('http://localhost:3000/categoria/' + idAModificar, form);
+                 respuesta = await axios.put('http://localhost:3000/categoria/' + idAModificar, form);
                 dispatch({ type: 'MODIFICAR_UNA_CATEGORIA', idCategoriaAModificar: respuesta.data });
                 setEnviado(!enviado);
                 console.log(form)

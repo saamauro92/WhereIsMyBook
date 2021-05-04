@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+
 
 
 
 export default function EditarLibro(props) {
     const [errorMessage, setErrorMessage] = useState("");
-    const params = useParams();
+
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         descripcion: '',
@@ -73,7 +73,7 @@ export default function EditarLibro(props) {
                     delete form.nombre;
                     delete form.categoria_id;
                     delete form.persona_id;
-                    const respuesta = await axios.put('http://localhost:3000/libro/' + idAModificar, form);
+                     respuesta = await axios.put('http://localhost:3000/libro/' + idAModificar, form);
                     dispatch({ type: 'MODIFICAR_UN_LIBRO', idLibroAModificar: respuesta.data });
                     setEnviado(!enviado);
                     console.log(form)
