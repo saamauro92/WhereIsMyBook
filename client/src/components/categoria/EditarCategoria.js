@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import axios from "axios";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 
 
 export default function EditarCategoria(props) {
-    const listadoCategorias = useSelector((state) => state.categoria);
+    const [errorMessage, setErrorMessage] = useState("");
     const params = useParams();
+    const [enviado, setEnviado] = useState(false);
+    const IDAMODIFICAR = props.id;
+    const setModal = props.setModal;
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         nombre: ''
     });
 
-    const handleCancel = () => {
-        props.history.push('/categoria');
-    };
+
 
 
     const buscarCategoriaPorId = async (idCategoria) => {
@@ -29,9 +30,9 @@ export default function EditarCategoria(props) {
     }
 
     React.useEffect(() => {
-        if (!params.id) return;
-        buscarCategoriaPorId(params.id)
-    }, [params])
+        if (!IDAMODIFICAR) return;
+        buscarCategoriaPorId(IDAMODIFICAR)
+    }, [IDAMODIFICAR])
 
     const handleNameChange = (e) => {
         const newForm = JSON.parse(JSON.stringify(form));
@@ -39,16 +40,43 @@ export default function EditarCategoria(props) {
         setForm(newForm);
     };
 
-    const onSave = async () => {
-        try {
-            console.log(form)
-            const respuesta = await axios.put('http://localhost:3000/categoria/' + params.id, form);
-            dispatch({ type: 'MODIFICAR_UNA_CATEGORIA', idCategoriaAModificar: respuesta.data});
-            props.history.push('/categoria');
+    const handleCerrar = () => {
+        setModal(!setModal)
 
-        } catch (e) {
+    };
+
+    const handleCerrarFormEnviado = () => {
+        setModal(!setModal)
+        setEnviado(!enviado);
+    };
+
+    const validateForm = () => {
+        if (!form.nombre) {
+            return { validation: false, errorMessage: "*El campo no puede quedar vacio. Por Favor completar" };
+        } else {
+            return { validation: true, errorMessage: "" };
+
+        }
+    }
 
 
+    const onSave = async (idAModificar) => {
+        let formValidation = validateForm();
+        if (!formValidation.validation) {
+            setErrorMessage(formValidation.errorMessage);
+        } else {
+            let respuesta
+            try {
+
+                console.log(form)
+                const respuesta = await axios.put('http://localhost:3000/categoria/' + idAModificar, form);
+                dispatch({ type: 'MODIFICAR_UNA_CATEGORIA', idCategoriaAModificar: respuesta.data });
+                setEnviado(!enviado);
+                console.log(form)
+
+            } catch (e) {
+
+            }
         }
 
 
@@ -59,21 +87,31 @@ export default function EditarCategoria(props) {
 
     return (
         <>
+            <div className="modal">
+                <div className="formulario_persona modal-content">
+                    <span onClick={handleCerrar} className="close"> x</span>
+                    <h4>Editar Categoria</h4>
 
-            <div className="formulario_persona">
+                    <div>
+                        <label >Nombre</label>
+                        <input type="text" name="nombre" value={form.nombre} onChange={handleNameChange} />
+                    </div>
+                    <div className={enviado ? "modalSucces" : "modalSucces-no"}>
+                        <div className="modal-content">
+
+                            <h2>Libro editado con exito!</h2>
+                            <button onClick={handleCerrarFormEnviado} >cerrar</button>
+
+                        </div>
 
 
+                    </div>
+                    <button onClick={() => onSave(props.id)}> Guardar</button>
 
-                <div>
-                    <label >Nombre</label>
-                    <input type="text" name="nombre" value={form.nombre} onChange={handleNameChange} />
+                    <button onClick={handleCerrar}>Cancelar</button>
+                    <p>   {errorMessage} </p>
                 </div>
-                
-                <button onClick={onSave}> Guardar</button>
-
-                <button onClick={handleCancel}>Cancelar</button>
             </div>
-
         </>
     )
 }

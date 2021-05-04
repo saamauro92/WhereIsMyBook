@@ -17,33 +17,27 @@ import EditarCategoria from './components/categoria/EditarCategoria';
 
 
 function App(props) {
-
-  const VerPersonas = async () => {
-    const respuesta = await axios.get('http://localhost:3000/persona');
-    dispatch({ type: 'VER_PERSONAS', listadoPersona: respuesta.data });
-  }
-
-  const VerLibros = async () => {
-    const respuesta = await axios.get('http://localhost:3000/libro');
-    dispatch({ type: 'VER_LIBROS', storeActionLibros: respuesta.data });
-  }
-
-  const VerGeneros = async () => {
-    const respuesta = await axios.get('http://localhost:3000/categoria');
-    dispatch({ type: 'VER_CATEGORIA', listadoDeCategorias: respuesta.data });
-  }
-
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    const VerPersonas = async () => {
+      const respuesta = await axios.get('http://localhost:3000/persona');
+      dispatch({ type: 'VER_PERSONAS', listadoPersona: respuesta.data });
+    };
 
-  React.useEffect(async () => {
+    const VerLibros = async () => {
+      const respuesta = await axios.get('http://localhost:3000/libro');
+      dispatch({ type: 'VER_LIBROS', storeActionLibros: respuesta.data });
+    };
 
+    const VerGeneros = async () => {
+      const respuesta = await axios.get('http://localhost:3000/categoria');
+      dispatch({ type: 'VER_CATEGORIA', listadoDeCategorias: respuesta.data });
+    };
     VerPersonas();
     VerLibros();
-    VerGeneros();    
-
-
-  }, []);
+    VerGeneros();
+  }, [dispatch]);
 
 
 
@@ -60,14 +54,11 @@ function App(props) {
         <Route exact path="/" />
         <Route exact path="/persona" component={Persona} />
         <Route exact path="/persona/agregar" component={AgregarPersona} />
-        <Route exact path="/persona/editar/:id" component={EditarPersona} />
         <Route exact path="/libro" component={Libro} />
-        <Route exact path="/libro/editar/:id" component={EditarLibro} />
         <Route exact path="/libro/agregar" component={AgregarLibro} />
         <Route exact path="/libro/prestar/:id" component={PrestarLibro} />
         <Route exact path="/categoria" component={Categoria} />
         <Route exact path="/categoria/agregar" component={AgregarCategoria} />
-        <Route exact path="/categoria/editar/:id" component={EditarCategoria} />  
       </Router>
 
 

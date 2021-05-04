@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function AgregarLibro(props) {
-
+    const [errorMessage, setErrorMessage] = useState("");
+    const setAgregarLibro = props.setAgregarLibro;
+    const [enviado, setEnviado] = useState(false);
     const categoria = useSelector((state) => state.categoria);
     const listadoPersonas = useSelector((state) => state.persona);
 
@@ -53,58 +55,101 @@ export default function AgregarLibro(props) {
         props.history.push('/libro');
     };
 
+    const validateForm = () => {
+        if (!form.nombre || !form.descripcion || !form.categoria_id) {
+            return { validation: false, errorMessage: "*Faltan datos. Por favor completar todos los campos." };
+        } else {
+            return { validation: true, errorMessage: "" };
+
+        }
+    }
+
+
+
+
 
     const handleSave = async () => {
-        try {
-            const respuesta = await axios.post(`http://localhost:3000/libro`, form);
-            dispatch({ type: 'AGREGAR_LIBRO', storeActionLibro: respuesta.data });
-            props.history.push('/libro');
-        } catch (e) {
-            console.log('problema con el servidor')
+        let formValidation = validateForm();
+        if (!formValidation.validation) {
+            setErrorMessage(formValidation.errorMessage);
+        } else {
+            let respuesta
+            try {
+                respuesta = await axios.post(`http://localhost:3000/libro`, form);
+                dispatch({ type: 'AGREGAR_LIBRO', storeActionLibro: respuesta.data });
+                setEnviado(!enviado);
+
+            } catch (e) {
+                console.log('problema con el servidor')
+            }
         }
+    };
+
+
+    const handleCerrar = () => {
+        setAgregarLibro(!setAgregarLibro)
+
+    };
+
+    const handleCerrarFormEnviado = () => {
+        setAgregarLibro(!setAgregarLibro)
+        setEnviado(!enviado);
     };
 
 
 
     return (
         <>
+            <div className="modal">
+                <div className="formulario_persona modal-content">
+                    <span onClick={handleCerrar} className="close"> x</span>
+                    <h4>Agregar libro</h4>
 
-            <div className="formulario_persona">
+
+
+                    <div>
+                        <label >Nombre</label>
+                        <input type="text" value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
+                    </div>
+                    <div >
+                        <label >Descripcion</label>
+                        <input type="text" value={form.descripcion} onChange={handleDescripcionChange} placeholder="Descripcion" />
+                    </div>
+                    <div >
+                        <label >Genero</label>
+                        <select value={props.categoria_id} onChange={handleCategoriaChange}>
+
+                            <option value="" disabled selected hidden>Selecionar Categoria</option>
+
+                            {categoria.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
+                        </select>
+                    </div>
+                    <div >
+                        <label >Persona a Prestar</label>
+                        <select value={props.persona_id} onChange={handlePersonaChange} >
+                            <option value="" disabled selected hidden>Selecionar Persona</option>
+                            <option value=""  >Sin prestar</option>
+                            {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
+                        </select>
+
+                    </div>
+
+                    <button onClick={handleSave}>Guardar</button>
+                    <button onClick={handleCancel}>Cancelar</button>
+                    <p>   {errorMessage} </p>
+                    <div className={enviado ? "modalSucces" : "modalSucces-no"}>
+                        <div className="modal-content">
+
+                            <h2>Libro agregado con exito!</h2>
+                            <button onClick={handleCerrarFormEnviado} >cerrar</button>
+                        </div>
+
+                    </div>
 
 
 
-                <div>
-                    <label >Nombre</label>
-                    <input type="text" value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
                 </div>
-                <div >
-                    <label >Descripcion</label>
-                    <input type="text" value={form.descripcion} onChange={handleDescripcionChange} placeholder="Descripcion" />
-                </div>
-                <div >
-                    <label >Genero</label>
-                    <select value={props.categoria_id} onChange={handleCategoriaChange}>
-
-                        <option value="" disabled selected hidden>Selecionar Categoria</option>
-
-                        {categoria.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
-                    </select>
-                </div>
-                <div >
-                    <label >Persona a Prestar</label>
-                    <select value={props.persona_id} onChange={handlePersonaChange} >
-                        <option value="" disabled selected hidden>Selecionar Persona</option>
-                        <option value=""  >Sin prestar</option>
-                        {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
-                    </select>
-
-                </div>
-                <button onClick={handleSave}>Guardar</button>
-                <button onClick={handleCancel}>Cancelar</button>
-
-
             </div>
-
         </>
     )
 }

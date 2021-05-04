@@ -2,19 +2,34 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom"
 import axios from 'axios';
+import EditarPersona from './EditarPersona';
+import AgregarPersona from './AgregarPersona';
 
 function UnaPersona(props) {
     const [toggle, setToggle] = useState(true);
+    const [modal, setModal] = useState(false);
+    const [errorBorrar, setErrorBorrar] = useState("")
     const dispatch = useDispatch();
+
+    const handleEditarPersona = (id) => {
+
+        setModal(!modal);
+
+    }
+
+
+
+
     const handleBorrarPersona = async (idABorrar) => {
+       
 
         try {
 
-            await axios.delete(`http://localhost:3000/persona/${idABorrar}`);
+        const respuesta = await axios.delete(`http://localhost:3000/persona/${idABorrar}`);
             dispatch({ type: 'REMOVER_PERSONA', idPersonaARemover: idABorrar });
             props.history.push('/persona');
         } catch (e) {
-            console.log("error en el servidor")
+        
         }
 
     }
@@ -56,21 +71,28 @@ function UnaPersona(props) {
                             {props.alias}
                         </div>
                         <div className="lista_editar">
-                            <Link to={"/persona/editar/" + props.id}> Editar</Link>
+
+                            <button onClick={() => handleEditarPersona(props.id)}> EDITAR</button>
+                           { modal &&    <EditarPersona id={props.id} setModal={setModal} modal={modal} />}
+                
+
+
                         </div>
+
                         <div className="lista_editar">
-                            <Link onClick={() => handleBorrarPersona(props.id)}> Borrar</Link>
+                            <button onClick={() => handleBorrarPersona(props.id)}> Borrar</button>
+                            <p>  {errorBorrar}   </p> 
                         </div>
 
 
                         <div className="lista_editar">
-                            <Link onClick={() => handleLibro(props.id)}> Libro</Link>
+                            <button onClick={() => handleLibro(props.id)}> Libro</button>
 
                             <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
-                            {props.libro}
+                                {props.libro}
+                            </div>
                         </div>
-                        </div>
-                
+
 
 
 
@@ -90,12 +112,19 @@ function UnaPersona(props) {
 
 
 export default function Persona(props) {
-
+     const [agregarPersona, setAgregarPersona] = useState(false)
     const listadoPersonas = useSelector((state) => state.persona);
     const listadoDeLibros = useSelector((state) => state.libro);
 
+    const handleAdPerson = (id) => {
+
+        setAgregarPersona(!agregarPersona);
+
+    }
+
+
     const datosJuntos = listadoPersonas.map(personaB => {
-        const libro = listadoDeLibros.find(libroB => libroB.persona_id == personaB.id)
+        const libro = listadoDeLibros.find(libroB => libroB.persona_id === personaB.id)
         return { id: personaB.id, nombre: personaB.nombre, apellido: personaB.apellido, email: personaB.email, alias: personaB.alias, nombreLibro: libro ? libro.nombre : "No Posee libro" }
 
     })
@@ -106,8 +135,9 @@ export default function Persona(props) {
             <div>
                 <h2>Persona</h2>
 
-                <Link to="/persona/agregar">  <h3>+ agregar persona</h3> </Link>
-
+                <button onClick={() => handleAdPerson(props.id)}> +Agregar Persona</button>
+                           { agregarPersona &&    <AgregarPersona id={props.id} agregarPersona={agregarPersona} setAgregarPersona={setAgregarPersona} />}
+              
                 {
                     datosJuntos.map((persona, index) => <UnaPersona key={index} id={persona.id} render={true} nombre={persona.nombre} apellido={persona.apellido} email={persona.email} libro={persona.nombreLibro} alias={persona.alias} />)
                 }

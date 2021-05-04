@@ -1,32 +1,30 @@
 import React, { useState } from 'react'
 import axios from "axios";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Link } from "react-router-dom"
+
 
 
 export default function EditarLibro(props) {
-
+    const [errorMessage, setErrorMessage] = useState("");
     const params = useParams();
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         descripcion: '',
 
     });
-    const [devolver, setDevolver] = React.useState({
-        persona_id:""
-    })
+    const [enviado, setEnviado] = useState(false);
+    const IDAMODIFICAR = props.id;
+    const setModal = props.setModal;
 
-    const handleCancel = () => {
-        props.history.push('/libro');
-    };
+
 
 
     const buscarLibroPorId = async (idLibro) => {
         try {
             const respuesta = await axios.get('http://localhost:3000/libro/' + idLibro)
             setForm(respuesta.data)
-            setDevolver(respuesta.data)
+
 
         } catch (e) {
 
@@ -34,9 +32,9 @@ export default function EditarLibro(props) {
     }
 
     React.useEffect(() => {
-        if (!params.id) return;
-        buscarLibroPorId(params.id)
-    }, [params])
+        if (!IDAMODIFICAR) return;
+        buscarLibroPorId(IDAMODIFICAR)
+    }, [IDAMODIFICAR])
 
     const handleDescriptionChange = (e) => {
         const newForm = JSON.parse(JSON.stringify(form));
@@ -44,19 +42,48 @@ export default function EditarLibro(props) {
         setForm(newForm);
     };
 
+    const handleCerrar = () => {
+        setModal(!setModal)
+
+    };
+
+    const handleCerrarFormEnviado = () => {
+        setModal(!setModal)
+        setEnviado(!enviado);
+    };
+
+    const validateForm = () => {
+        if (!form.descripcion) {
+            return { validation: false, errorMessage: "*El campo no puede quedar vacio. Por Favor completar" };
+        } else {
+            return { validation: true, errorMessage: "" };
+
+        }
+    }
 
 
+    const onSave = async (idAModificar) => {
+        let formValidation = validateForm();
+        if (!formValidation.validation) {
+            setErrorMessage(formValidation.errorMessage);
+        } else {
+            let respuesta
+            try {
+                if (form) {
+                    delete form.nombre;
+                    delete form.categoria_id;
+                    delete form.persona_id;
+                    const respuesta = await axios.put('http://localhost:3000/libro/' + idAModificar, form);
+                    dispatch({ type: 'MODIFICAR_UN_LIBRO', idLibroAModificar: respuesta.data });
+                    setEnviado(!enviado);
+                    console.log(form)
+                }
 
-    const onSave = async () => {
-        try {
-            console.log(form)
-            const respuesta = await axios.put('http://localhost:3000/libro/' + params.id, form);
-            dispatch({ type: 'MODIFICAR_UN_LIBRO', idLibroAModificar: respuesta.data });
-            props.history.push('/libro');
+                props.history.push('/libro');
 
-        } catch (e) {
+            } catch (e) {
 
-
+            }
 
         }
 
@@ -68,22 +95,34 @@ export default function EditarLibro(props) {
 
     return (
         <>
+            <div className="modal">
+                <div className="formulario_persona modal-content">
 
-            <div className="formulario_persona">
+                    <span onClick={handleCerrar} className="close"> x</span>
+                    <h4>Editar Libro</h4>
+                    <div>
+                        <label >Descripcion del libro</label>
+                        <input type="text" name="descripcion" value={form.descripcion} onChange={handleDescriptionChange} />
+                    </div>
 
 
-                <div>
-                    <label >Descripcion del libro</label>
-                    <input type="text" name="descripcion" value={form.descripcion} onChange={handleDescriptionChange} />
+                    <div className={enviado ? "modalSucces" : "modalSucces-no"}>
+                        <div className="modal-content">
+
+                            <h2>Libro editado con exito!</h2>
+                            <button onClick={handleCerrarFormEnviado} >cerrar</button>
+                        </div>
+
+                    </div>
+
+
+                    <button onClick={() => onSave(props.id)}> Guardar</button>
+
+                    <button onClick={handleCerrar}>Cancelar</button>
+                    <p>   {errorMessage} </p>
                 </div>
 
-
-
-                <button onClick={onSave}> Guardar</button>
-
-                <button onClick={handleCancel}>Cancelar</button>
             </div>
-
         </>
     )
 }

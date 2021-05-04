@@ -2,12 +2,17 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom"
 import axios from 'axios';
+import EditarCategoria from './EditarCategoria';
+import AgregarCategoria from './AgregarCategoria';
 
 function UnaCategoria(props) {
+    const [modal, setModal] = useState(false);
     const [toggle, setToggle] = useState(true);
     const dispatch = useDispatch();
-    const handleBorrarCategoria = async (idABorrar) => {
 
+
+    const handleBorrarCategoria = async (idABorrar) => {
+      
         try {
 
             await axios.delete(`http://localhost:3000/categoria/${idABorrar}`);
@@ -22,6 +27,12 @@ function UnaCategoria(props) {
     const handleLibro = (idCategoria) => {
         setToggle(!toggle);
 
+
+    }
+
+    const handleEditarCategoria = (id) => {
+
+        setModal(!modal);
 
     }
 
@@ -42,15 +53,19 @@ function UnaCategoria(props) {
                             {props.nombre}
                         </div>                        
                         <div className="lista_editar">
-                            <Link to={"/categoria/editar/" + props.id}> Editar</Link>
+
+                            <button onClick={() => handleEditarCategoria(props.id)}> EDITAR</button>
+                           { modal &&    <EditarCategoria id={props.id} setModal={setModal} modal={modal} />}
+
+
                         </div>
                         <div className="lista_editar">
-                            <Link onClick={() => handleBorrarCategoria(props.id)}> Borrar</Link>
+                            <button onClick={() => handleBorrarCategoria(props.id)}> Borrar</button>
                         </div>
 
 
                         <div className="lista_editar">
-                            <Link onClick={() => handleLibro(props.id)}> Libro</Link>
+                            <button onClick={() => handleLibro(props.id)}> Libro</button>
 
                             <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
                             {props.libro}
@@ -76,12 +91,19 @@ function UnaCategoria(props) {
 
 
 export default function Categoria(props) {
-
+    const [agregarCategoria, setAgregarCategoria] = useState(false)
     const listadoCategorias = useSelector((state) => state.categoria);
     const listadoDeLibros = useSelector((state) => state.libro);
 
+    
+    const handleAdCategoria = (id) => {
+
+        setAgregarCategoria(!agregarCategoria);
+
+    }
+
     const datosJuntos = listadoCategorias.map(categoriaB => {
-        const libro = listadoDeLibros.find(libroB => libroB.categoria_id == categoriaB.id)
+        const libro = listadoDeLibros.find(libroB => libroB.categoria_id === categoriaB.id)
         return { id: categoriaB.id, nombre: categoriaB.nombre, nombreLibro: libro ? libro.nombre : "No Posee libro" }
 
     })
@@ -92,7 +114,8 @@ export default function Categoria(props) {
             <div>
                 <h2>Categoria</h2>
 
-                <Link to="/categoria/agregar">  <h3>+ agregar categoria</h3> </Link>
+                <button onClick={() => handleAdCategoria(props.id)}> +Agregar Categoria</button>
+                           { agregarCategoria &&    <AgregarCategoria id={props.id} agregarCategoria={agregarCategoria} setAgregarCategoria={setAgregarCategoria} />}
 
                 {
                     datosJuntos.map((categoria, index) => <UnaCategoria key={index} id={categoria.id} render={true} nombre={categoria.nombre} libro={categoria.nombreLibro} />)

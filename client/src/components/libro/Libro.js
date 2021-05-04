@@ -3,22 +3,31 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import PrestarLibro from './PrestarLibro';
 import axios from "axios";
-import { useParams } from 'react-router-dom';
-function UnLibro(props) {
+import EditarLibro from './EditarLibro';
+import AgregarLibro from './AgregarLibro';
 
+function UnLibro(props) {
+    const [modal, setModal] = useState(false);
     const [toggle, setToggle] = useState(true);
     const [devolver, setDevolver] = React.useState({
         id: "",
         persona_id: ""
     })
     const dispatch = useDispatch();
-    const params = useParams();
+
 
     const handleLibro = (idPersona) => {
 
         setToggle(!toggle);
 
     }
+
+    const handleEditarLibro = (id) => {
+
+        setModal(!modal);
+
+    }
+
 
     const handleBorrarLibro = async (idABorrar) => {
 
@@ -72,15 +81,20 @@ function UnLibro(props) {
                         </div>
 
                         <div className="lista_editar">
-                            <Link to={"/libro/editar/" + props.id}> Editar</Link>
+                    
+
+                            <button onClick={() => handleEditarLibro(props.id)}> EDITAR</button>
+                           { modal &&    <EditarLibro id={props.id} setModal={setModal} modal={modal} />}
+
+
                         </div>
                         <div className="lista_editar">
-                            <Link onClick={() => handleBorrarLibro(props.id)}> Borrar</Link>
+                            <button onClick={() => handleBorrarLibro(props.id)}> Borrar</button>
                         </div>
 
 
                         <div className="lista_editar">
-                            <Link onClick={() => handleLibro(props.id)} > Prestado a</Link>
+                            <button onClick={() => handleLibro(props.id)} > Prestado a</button>
                             <div className={ toggle ? "mostrar-libro-no" :  "mostrar-libro-si"}>
                                 {props.alias}
                             </div>
@@ -89,16 +103,14 @@ function UnLibro(props) {
 
 
                         <div className="lista_editar">
-                            <Link to onClick={() => handleDevolver(props.id)}>Devolver </Link>
+                            <button to onClick={() => handleDevolver(props.id)}>Devolver </button>
 
                         </div>
                         <div>
 
                         <div className="lista_editar">
 
-               {/*       <Link  to={"/libro/prestar/" + props.id} > >Prestar a  </Link>  */}
-{/*  <p>Prestar a</p> */}
-                  <PrestarLibro key={props.id} id={props.id}/> 
+                  <PrestarLibro id={props.id}/> 
                         </div>
 
                         </div>
@@ -122,10 +134,15 @@ function UnLibro(props) {
 
 
 export default function Libro(props) {
-
-
+    const [agregarLibro, setAgregarLibro] = useState(false)
     const listadoDeLibros = useSelector((state) => state.libro);
     const listadoPersonas = useSelector((state) => state.persona);
+
+    const handleAdLibro = (id) => {
+
+        setAgregarLibro(!agregarLibro);
+
+    }
 
     const datosJuntos = listadoDeLibros.map(libroB => {
         const personaAlias = listadoPersonas.find(personaB => personaB.id == libroB.persona_id)
@@ -143,8 +160,9 @@ export default function Libro(props) {
             <div>
 
                 <h2>Libro</h2>
-                <Link to="/libro/agregar">  <h3>+ agregar libro</h3> </Link>
-
+                <button onClick={() => handleAdLibro(props.id)}> +Agregar Libro</button>
+                           { agregarLibro &&    <AgregarLibro id={props.id} agregarLibro={agregarLibro} setAgregarLibro={setAgregarLibro} />}
+              
                 {
                     datosJuntos.map((libro, index) => <UnLibro key={index} id={libro.id} nombre={libro.nombre} descripcion={libro.descripcion} categoria={libro.categoria_id} alias={libro.aliasPersona} persona_id={libro.persona_id} />)
                 }

@@ -4,6 +4,7 @@ const estadoInicial = {
     persona: [],
     libro: [],
     categoria: [],
+    errorMessage: true
 };
 
 
@@ -18,7 +19,7 @@ function reducer(state = estadoInicial, action) {
         case 'AGREGAR_UNA_PERSONA':
             nuevoState.persona.push(action.storeActionPersona);
             return nuevoState;
-         case 'MODIFICAR_UNA_PERSONA':
+        case 'MODIFICAR_UNA_PERSONA':
             var { id, nombre, apellido, alias } = action.idPersonaAModificar;
             const personaAModificar = nuevoState.persona.find(persona => persona.id === id)
             if (personaAModificar) {
@@ -26,7 +27,7 @@ function reducer(state = estadoInicial, action) {
                 personaAModificar.apellido = apellido
                 personaAModificar.alias = alias
             }
-            return nuevoState 
+            return nuevoState
 
         case 'REMOVER_PERSONA':
             nuevoState.persona = nuevoState.persona.filter((unaPersona) => unaPersona.id !== action.idPersonaARemover);
@@ -47,24 +48,24 @@ function reducer(state = estadoInicial, action) {
             }
             return nuevoState
 
-       case 'MODIFICAR_UN_LIBRO':
+        case 'MODIFICAR_UN_LIBRO':
             var { id, descripcion } = action.idLibroAModificar;
             const libroAModificar = nuevoState.libro.find(libro => libro.id === id)
             if (libroAModificar) {
                 libroAModificar.descripcion = descripcion
 
             }
-            return nuevoState 
+            return nuevoState
 
-        /////////////////  PRESTAR LIBRO   ////////////////////////
-           case 'PRESTAR':
-         var { id, nombre, descripcion, categoria_id, persona_id } = action.idAPrestar; 
-             const libroAPrestar = nuevoState.libro.find(librob => librob.id === id)
-             if (libroAPrestar)  {
+
+        case 'PRESTAR':
+            var { id, persona_id } = action.idAPrestar;
+            const libroAPrestar = nuevoState.libro.find(librob => librob.id == id)
+            if (libroAPrestar) {
                 libroAPrestar.persona_id = persona_id;
-                    }   
-                    return nuevoState
-                    
+            }
+            return nuevoState
+
 
 
         case 'REMOVER_LIBRO':
@@ -81,21 +82,21 @@ function reducer(state = estadoInicial, action) {
             nuevoState.categoria.push(action.storeActionCategoria);
             return nuevoState;
 
-       case 'REMOVER_CATEGORIA':
-                nuevoState.categoria = nuevoState.categoria.filter((unaCategoria) => unaCategoria.id !== action.idGeneroARemover);
-                return nuevoState;
-          
+        case 'REMOVER_CATEGORIA':
+            nuevoState.categoria = nuevoState.categoria.filter((unaCategoria) => unaCategoria.id !== action.idGeneroARemover);
+            return nuevoState;
+
         case 'PRESTADO_A':
             nuevoState.personaPrestada = action.idPersonaPrestada;
             return nuevoState;
 
-     case 'MODIFICAR_UNA_CATEGORIA':
-                var { idCategoria, nombreCategoria } = action.idCategoriaAModificar;
-                const categoriaAModificar = nuevoState.categoria.find(categoria => categoria.id === idCategoria)
-                if (categoriaAModificar) {
-                  categoriaAModificar.nombre = nombreCategoria;
-                };
-                return nuevoState;
+        case 'MODIFICAR_UNA_CATEGORIA':
+            var { idCategoria, nombreCategoria } = action.idCategoriaAModificar;
+            const categoriaAModificar = nuevoState.categoria.find(categoria => categoria.id === idCategoria)
+            if (categoriaAModificar) {
+                categoriaAModificar.nombre = nombreCategoria;
+            };
+            return nuevoState;
 
         default:
             return state;

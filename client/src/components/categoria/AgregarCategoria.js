@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import axios from "axios";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 
 
 
 
 
 export default function AgregarCategoria(props) {
-
+    const [errorMessage, setErrorMessage] = useState("");
+    const setAgregarCategoria = props.setAgregarCategoria;
+    const [enviado, setEnviado] = useState(false);
 
     const dispatch = useDispatch();
     const [form, setForm] = useState({
@@ -27,26 +29,51 @@ export default function AgregarCategoria(props) {
     };
 
  
+    const validateForm = () => {  
+        if (!form.nombre) {
+             return {validation: false, errorMessage: "*El campo no puede quedar vacio"};   
+            } else { return {validation: true, errorMessage:""};
+       
+         }  
+          }
 
 
 
     const onSave = async () => {
+        let formValidation = validateForm();
+        if(!formValidation.validation){
+            setErrorMessage(formValidation.errorMessage);
+        } else {
+            let respuesta
         try {
             const respuesta = await axios.post(`http://localhost:3000/categoria`, form);
             dispatch({ type: 'AGREGAR_UNA_CATEGORIA', storeActionCategoria: respuesta.data });
-            props.history.push('/categoria');
+            setEnviado(!enviado);
 
 
 
         } catch (e) {
-
+ }
 
 
         }
 
 
 
+
     }
+
+    
+
+    const handleCerrar = () => {
+        setAgregarCategoria(!setAgregarCategoria)
+        
+            };
+
+            const handleCerrarFormEnviado = () => {
+                setAgregarCategoria(!setAgregarCategoria)
+                setEnviado(!enviado);
+                    };
 
 
     console.log(form)
@@ -54,8 +81,10 @@ export default function AgregarCategoria(props) {
 
     return (
         <>
-
-            <div className="formulario_persona">
+<div className="modal">
+            <div className="formulario_persona modal-content">
+            <span onClick={handleCerrar} className="close"> x</span>
+                <h4>Agregar Categoria</h4>
 
 
 
@@ -66,7 +95,17 @@ export default function AgregarCategoria(props) {
                 
                 <button type="submit" onClick={onSave}> Guardar</button>
                 <button onClick={handleCancel}>Cancelar</button>
+                <p>   {errorMessage} </p>  
+                <div className={enviado ? "modalSucces": "modalSucces-no"}>
+    <div className="modal-content">
 
+    <h2>Categoria agregada con exito!</h2>
+    <button onClick={handleCerrarFormEnviado} >cerrar</button>
+    </div>
+ 
+</div>
+
+            </div>
             </div>
 
         </>
