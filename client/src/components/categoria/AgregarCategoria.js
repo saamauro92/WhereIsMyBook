@@ -16,12 +16,6 @@ export default function AgregarCategoria(props) {
         nombre: ''
     });
 
-    const handleCancel = () => {
-        props.history.push('/categoria');
-    };
-
-
-
     const handleNameChange = (e) => {
         const newForm = JSON.parse(JSON.stringify(form));
         newForm.nombre = e.target.value;
@@ -94,7 +88,7 @@ export default function AgregarCategoria(props) {
                 </div>
                 
                 <button type="submit" onClick={onSave}> Guardar</button>
-                <button onClick={handleCancel}>Cancelar</button>
+                <button onClick={handleCerrar}>Cancelar</button>
                 <p>   {errorMessage} </p>  
                 <div className={enviado ? "modalSucces": "modalSucces-no"}>
     <div className="modal-content">

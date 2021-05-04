@@ -51,10 +51,6 @@ export default function AgregarLibro(props) {
     };
 
 
-    const handleCancel = () => {
-        props.history.push('/libro');
-    };
-
     const validateForm = () => {
         if (!form.nombre || !form.descripcion || !form.categoria_id) {
             return { validation: false, errorMessage: "*Faltan datos. Por favor completar todos los campos." };
@@ -135,7 +131,7 @@ export default function AgregarLibro(props) {
                     </div>
 
                     <button onClick={handleSave}>Guardar</button>
-                    <button onClick={handleCancel}>Cancelar</button>
+                    <button onClick={handleCerrar}>Cancelar</button>
                     <p>   {errorMessage} </p>
                     <div className={enviado ? "modalSucces" : "modalSucces-no"}>
                         <div className="modal-content">

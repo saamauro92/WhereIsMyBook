@@ -20,10 +20,6 @@ const [enviado, setEnviado] = useState(false);
 
     });
 
-    const handleCancel = () => {
-        props.history.push('/persona');
-    };
-
 
 
     const handleNameChange = (e) => {
@@ -123,7 +119,7 @@ const [enviado, setEnviado] = useState(false);
                 </div>
             
                 <button type="submit" onClick={onSave}> Guardar</button>
-                <button onClick={handleCancel}>Cancelar</button>
+                <button onClick={handleCerrar}>Cancelar</button>
                 <p>   {errorMessage} </p>   
                 <div className={enviado ? "modalSucces": "modalSucces-no"}>
     <div className="modal-content">
