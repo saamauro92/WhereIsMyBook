@@ -6,14 +6,12 @@ import axios from 'axios';
 import Menu from './components/Menu';
 import Persona from './components/persona/Persona';
 import AgregarPersona from './components/persona/AgregarPersona';
-import EditarPersona from './components/persona/EditarPersona';
 import Libro from './components/libro/Libro';
 import AgregarLibro from './components/libro/AgregarLibro';
 import PrestarLibro from './components/libro/PrestarLibro';
-import EditarLibro from './components/libro/EditarLibro';
 import Categoria from './components/categoria/Categoria';
 import AgregarCategoria from './components/categoria/AgregarCategoria';
-import EditarCategoria from './components/categoria/EditarCategoria';
+
 
 
 function App(props) {

@@ -40,7 +40,7 @@ export default function AgregarCategoria(props) {
         } else {
             let respuesta
         try {
-            const respuesta = await axios.post(`http://localhost:3000/categoria`, form);
+             respuesta = await axios.post(`http://localhost:3000/categoria`, form);
             dispatch({ type: 'AGREGAR_UNA_CATEGORIA', storeActionCategoria: respuesta.data });
             setEnviado(!enviado);
 
