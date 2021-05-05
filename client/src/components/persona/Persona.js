@@ -5,6 +5,12 @@ import EditarPersona from './EditarPersona';
 import AgregarPersona from './AgregarPersona';
 
 function UnaPersona(props) {
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const [succesMessage, setSuccesMessage] = useState("")
+    const [abrirModalSuccess, setAbrirModalSuccess] = useState("");
+    const [abrirModalFailed, setAbrirModalFailed] = useState("");
+
     const [toggle, setToggle] = useState(true);
     const [modal, setModal] = useState(false);
     const [errorBorrar, setErrorBorrar] = useState("")
@@ -26,9 +32,20 @@ function UnaPersona(props) {
 
          await axios.delete(`http://localhost:3000/persona/${idABorrar}`);
             dispatch({ type: 'REMOVER_PERSONA', idPersonaARemover: idABorrar });
-            props.history.push('/persona');
-        } catch (e) {
-        
+            setAbrirModalSuccess(!abrirModalSuccess)
+            setSuccesMessage("Persona borrada con exito!")
+      
+        }  catch (e) {
+            try {
+             setAbrirModalFailed(!abrirModalFailed) 
+                 setErrorMessage(e.response.data.mensaje)  
+
+            } catch (e2) {
+             setAbrirModalFailed(!abrirModalFailed) 
+               setErrorMessage(e.message) 
+
+            }
+
         }
 
     }
@@ -70,26 +87,45 @@ function UnaPersona(props) {
                             {props.alias}
                         </div>
                         <div className="lista_editar">
-
+{/*  EDITAR  */}
                             <button onClick={() => handleEditarPersona(props.id)}> EDITAR</button>
                            { modal &&    <EditarPersona id={props.id} setModal={setModal} modal={modal} />}
                 
 
 
                         </div>
-
+{/*  BORRAR  */}
                         <div className="lista_editar">
                             <button onClick={() => handleBorrarPersona(props.id)}> Borrar</button>
-                            <p>  {errorBorrar}   </p> 
+                       
+                            <div className={abrirModalSuccess ? "modalSucces" : "modalSucces-no"}>
+                                <div className="modal-content">
+                                    <p> {succesMessage} </p>
+
+                                    <button onClick={() => setAbrirModalSuccess(!abrirModalSuccess)} >cerrar</button>
+                                </div>
+                            </div>
+
+                            <div className={abrirModalFailed ? "modalSucces" : "modalSucces-no"}>
+                                <div className="modal-content">
+                                    <p>  - {props.id} -{props.nombre} {props.apellido}:  {"error proveniente del server- " && errorMessage}</p>
+
+                                    <button onClick={()=> setAbrirModalFailed(!abrirModalFailed)}  >cerrar</button>
+                                </div>
+                            </div>
+
+
                         </div>
 
-
+{/*  LIBRO PRESTADO  */}
                         <div className="lista_editar">
                             <button onClick={() => handleLibro(props.id)}> Libro</button>
 
                             <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
-                                {props.libro}
+                                <p> {props.libro} </p>
+                         
                             </div>
+       
                         </div>
 
 

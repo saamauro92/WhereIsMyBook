@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function PrestarLibro(props) {
 
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const [succesMessage, setSuccesMessage] = useState("")
+    const [enviado, setEnviado] = useState(false);
+    const [noEnviado, setNoEnviado] = useState(false);
     const listadoPersonas = useSelector((state) => state.persona);
     const dispatch = useDispatch();
 
@@ -39,39 +44,71 @@ export default function PrestarLibro(props) {
 
     };
 
+
+
     //PRESTAR
-
-
     const onSave = async (idAModificar) => {
 
+
         try {
+
             if (form) {
 
                 delete form.nombre;
                 delete form.descripcion;
                 delete form.categoria_id;
-                const respuesta = await axios.put('http://localhost:3000/libro/prestar/' + idAModificar, form);
+                await axios.put('http://localhost:3000/libro/prestar/' + idAModificar, form);
                 dispatch({ type: 'PRESTAR', idAPrestar: form });
                 console.log(form)
+                setSuccesMessage("Libro prestado con exito!")
+                setEnviado(!enviado);
             }
 
-            props.history.push('/libro');
 
         } catch (e) {
+            try {
+
+                setNoEnviado(!noEnviado);
+                setErrorMessage(e.response.data.mensaje)
+
+            } catch (e2) {
+                setNoEnviado(!noEnviado);
+                setErrorMessage(e.response.data.mensaje)
+
+            }
+
         }
+
 
     }
 
 
     return (
         <div>
-            <select value={props.persona_id}  onChange={handlePersonaChange} >
-                <option value="0"    selected   disabled hidden> Elegir persona  </option>
+            <select value={props.persona_id} onChange={handlePersonaChange} >
+                <option value="0" selected disabled hidden> Elegir persona  </option>
 
                 {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.alias} </option>)}
             </select>
             <button onClick={() => onSave(props.id)}> Prestar</button>
 
+
+            <div className={enviado ? "modalSucces" : "modalSucces-no"}>
+                <div className="modal-content">
+                    <p>{succesMessage} </p>
+
+                    <button onClick={()=> setEnviado(!enviado)} >cerrar</button>
+                </div>
+
+            </div>
+
+            <div className={noEnviado ? "modalSucces" : "modalSucces-no"}>
+                <div className="modal-content">
+                    <p> { "Error proveniente del servidor" && errorMessage  }  </p>
+                    <button onClick={()=>    setNoEnviado(!noEnviado)} >cerrar</button>
+                </div>
+
+            </div>
 
         </div>
     )

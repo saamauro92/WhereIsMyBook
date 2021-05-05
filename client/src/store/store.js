@@ -4,7 +4,7 @@ const estadoInicial = {
     persona: [],
     libro: [],
     categoria: [],
-    errorMessage: true
+ 
 };
 
 
@@ -28,11 +28,9 @@ function reducer(state = estadoInicial, action) {
                 personaAModificar.alias = alias
             }
             return nuevoState
-
         case 'REMOVER_PERSONA':
             nuevoState.persona = nuevoState.persona.filter((unaPersona) => unaPersona.id !== action.idPersonaARemover);
             return nuevoState;
-
 
         case 'VER_LIBROS':
             nuevoState.libro = action.storeActionLibros;
@@ -57,7 +55,6 @@ function reducer(state = estadoInicial, action) {
             }
             return nuevoState
 
-
         case 'PRESTAR':
             var { id, persona_id } = action.idAPrestar;
             const libroAPrestar = nuevoState.libro.find(librob => librob.id == id)
@@ -66,13 +63,9 @@ function reducer(state = estadoInicial, action) {
             }
             return nuevoState
 
-
-
         case 'REMOVER_LIBRO':
             nuevoState.libro = nuevoState.libro.filter((unLibro) => unLibro.id !== action.idLibroARemover);
             return nuevoState;
-
-
 
 
         case 'VER_CATEGORIA':

@@ -5,6 +5,11 @@ import EditarCategoria from './EditarCategoria';
 import AgregarCategoria from './AgregarCategoria';
 
 function UnaCategoria(props) {
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const [succesMessage, setSuccesMessage] = useState("")
+    const [abrirModalSuccess, setAbrirModalSuccess] = useState("");
+    const [abrirModalFailed, setAbrirModalFailed] = useState("");
     const [modal, setModal] = useState(false);
     const [toggle, setToggle] = useState(true);
     const dispatch = useDispatch();
@@ -16,9 +21,21 @@ function UnaCategoria(props) {
 
             await axios.delete(`http://localhost:3000/categoria/${idABorrar}`);
             dispatch({ type: 'REMOVER_CATEGORIA', idGeneroARemover: idABorrar });
-            props.history.push('/categoria');
+            setAbrirModalSuccess(!abrirModalSuccess)
+            setSuccesMessage("Categoria borrada con exito!")
+      
+      
         } catch (e) {
-            console.log("error en el servidor")
+            try {
+             setAbrirModalFailed(!abrirModalFailed) 
+                 setErrorMessage(e.response.data.mensaje)  
+
+            } catch (e2) {
+             setAbrirModalFailed(!abrirModalFailed) 
+               setErrorMessage(e.message) 
+
+            }
+
         }
 
     }
@@ -53,18 +70,33 @@ function UnaCategoria(props) {
                         </div>                        
                         <div className="lista_editar">
 
-                            <button onClick={() => handleEditarCategoria(props.id)}> EDITAR</button>
+      {/* EDITAR */}    <button onClick={() => handleEditarCategoria(props.id)}> EDITAR</button>
                            { modal &&    <EditarCategoria id={props.id} setModal={setModal} modal={modal} />}
 
 
                         </div>
-                        <div className="lista_editar">
+      {/* BORRAR */}                  <div className="lista_editar">
                             <button onClick={() => handleBorrarCategoria(props.id)}> Borrar</button>
+                            <div className={abrirModalSuccess ? "modalSucces" : "modalSucces-no"}>
+                                <div className="modal-content">
+                                    <p> {succesMessage} </p>
+
+                                    <button onClick={() => setAbrirModalSuccess(!abrirModalSuccess)} >cerrar</button>
+                                </div>
+                            </div>
+
+                            <div className={abrirModalFailed ? "modalSucces" : "modalSucces-no"}>
+                                <div className="modal-content">
+                                    <p>  - {props.id} -{props.nombre} {props.apellido}:  {"error proveniente del server- " && errorMessage}</p>
+
+                                    <button onClick={()=> setAbrirModalFailed(!abrirModalFailed)}  >cerrar</button>
+                                </div>
+                            </div>
                         </div>
 
 
-                        <div className="lista_editar">
-                            <button onClick={() => handleLibro(props.id)}> Libro</button>
+     {/* LIBROS */}       <div className="lista_editar">
+                            <button onClick={() => handleLibro(props.id)}> Libros</button>
 
                             <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
                             {props.libro}
