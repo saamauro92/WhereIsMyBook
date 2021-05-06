@@ -97,29 +97,32 @@ const [enviado, setEnviado] = useState(false);
         <div className="modal"> 
 
             <div className="formulario_persona modal-content">
+      
             <span onClick={handleCerrar} className="close"> x</span>
-            <h4> Agregar Persona</h4>
+            <h4 className="form-tittle "> Agregar Persona</h4>
 
-
-                <div>
+            <div className="form-wrapper"> 
+                <div className="form-item ">
                     <label >Nombre</label>
                     <input type="text" name="nombre" value={form.nombre} onChange={handleNameChange} />
                 </div>
-                <div >
+                <div className="form-item ">
                     <label >Apellido</label>
                     <input type="text" name="apellido" value={form.apellido} onChange={handleSurnameChange} />
                 </div>
-                <div >
+                <div className="form-item " >
                     <label >Email</label>
                     <input type="text" name="email" value={form.email} onChange={handleEmailChange} />
                 </div>
-                <div >
+                <div className="form-item " >
                     <label >Alias</label>
                     <input type="text" name="alias" value={form.alias} onChange={handleUsernameChange} />
                 </div>
-            
-                <button type="submit" onClick={onSave}> Guardar</button>
+            <div className="form-button">
+                <button  type="submit" onClick={onSave}> Guardar</button>
                 <button onClick={handleCerrar}>Cancelar</button>
+
+            </div>
                 <p>   {errorMessage} </p>   
                 <div className={enviado ? "modalSucces": "modalSucces-no"}>
     <div className="modal-content">
@@ -131,6 +134,7 @@ const [enviado, setEnviado] = useState(false);
 </div>
 
 
+            </div>
             </div>
             </div>
         </>

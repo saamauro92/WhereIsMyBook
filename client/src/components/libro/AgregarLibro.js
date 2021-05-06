@@ -99,39 +99,41 @@ export default function AgregarLibro(props) {
             <div className="modal">
                 <div className="formulario_persona modal-content">
                     <span onClick={handleCerrar} className="close"> x</span>
-                    <h4>Agregar libro</h4>
+                    <h4 className="form-tittle">Agregar libro</h4>
 
+                    <div className="form-wrapper"> 
 
-
-                    <div>
+                    <div className="form-item">
                         <label >Nombre</label>
                         <input type="text" value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
                     </div>
-                    <div >
+                    <div  className="form-item">
                         <label >Descripcion</label>
                         <input type="text" value={form.descripcion} onChange={handleDescripcionChange} placeholder="Descripcion" />
                     </div>
-                    <div >
+                    <div className="form-item" >
                         <label >Genero</label>
-                        <select value={props.categoria_id} onChange={handleCategoriaChange}>
+                        <select className="form-item" value={props.categoria_id} onChange={handleCategoriaChange}>
 
                             <option value="" disabled selected hidden>Selecionar Categoria</option>
 
                             {categoria.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
                         </select>
                     </div>
-                    <div >
+                    <div  className="form-item">
                         <label >Persona a Prestar</label>
-                        <select value={props.persona_id} onChange={handlePersonaChange} >
+                        <select className="form-item" value={props.persona_id} onChange={handlePersonaChange} >
                             <option value="" disabled selected hidden>Selecionar Persona</option>
                             <option value=""  >Sin prestar</option>
                             {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
                         </select>
 
                     </div>
+                        <div className="form-button">  
 
                     <button onClick={handleSave}>Guardar</button>
                     <button onClick={handleCerrar}>Cancelar</button>
+                        </div>
                     <p>   {errorMessage} </p>
                     <div className={enviado ? "modalSucces" : "modalSucces-no"}>
                         <div className="modal-content">
@@ -144,6 +146,7 @@ export default function AgregarLibro(props) {
 
 
 
+                </div>
                 </div>
             </div>
         </>

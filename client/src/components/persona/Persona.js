@@ -64,8 +64,9 @@ function UnaPersona(props) {
     return (
 
         <>
+        
 
-            <div id={props.id} >
+            <div  className="card" id={props.id} >
 
                 <div className="listado_contenedor">
                     <div className="lista">
@@ -137,7 +138,7 @@ function UnaPersona(props) {
 
             </div>
 
-
+       
         </>
     )
 }
@@ -168,9 +169,11 @@ export default function Persona(props) {
     return (
         <>
             <div>
-                <h2>Persona</h2>
+                <h2 className="personaTitle">Persona</h2>
+                <button className="addPersona" onClick={() => handleAdPerson(props.id)}> +Agregar Persona</button>
 
-                <button onClick={() => handleAdPerson(props.id)}> +Agregar Persona</button>
+                <div className="container"> 
+
                            { agregarPersona &&    <AgregarPersona id={props.id} agregarPersona={agregarPersona} setAgregarPersona={setAgregarPersona} />}
               
                 {
@@ -179,7 +182,7 @@ export default function Persona(props) {
 
 
             </div>
-
+            </div>
         </>
     )
 }

@@ -143,16 +143,18 @@ export default function Categoria(props) {
     return (
         <>
             <div>
-                <h2>Categoria</h2>
+                <h2 className="personaTitle">Géneros</h2>
 
-                <button onClick={() => handleAdCategoria(props.id)}> +Agregar Categoria</button>
+                <button className="addPersona"  onClick={() => handleAdCategoria(props.id)}> +Agregar Géneros</button>
+             <div className="container"> 
+             
                            { agregarCategoria &&    <AgregarCategoria id={props.id} agregarCategoria={agregarCategoria} setAgregarCategoria={setAgregarCategoria} />}
 
                 {
                     datosJuntos.map((categoria, index) => <UnaCategoria key={index} id={categoria.id} render={true} nombre={categoria.nombre} libro={categoria.nombreLibro} />)
                 }
 
-
+</div>
             </div>
 
         </>

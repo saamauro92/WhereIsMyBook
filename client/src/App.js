@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import Menu from './components/Menu';
+import Sidebar from './components/Sidebar';
 import Persona from './components/persona/Persona';
 import AgregarPersona from './components/persona/AgregarPersona';
 import Libro from './components/libro/Libro';
@@ -46,8 +46,8 @@ function App(props) {
 
       <Router>
 
-        <Menu />
-
+        <Sidebar/>
+        <div className="app-body">
 
         <Route exact path="/" />
         <Route exact path="/persona" component={Persona} />
@@ -57,6 +57,7 @@ function App(props) {
         <Route exact path="/libro/prestar/:id" component={PrestarLibro} />
         <Route exact path="/categoria" component={Categoria} />
         <Route exact path="/categoria/agregar" component={AgregarCategoria} />
+        </div>
       </Router>
 
 

@@ -222,14 +222,16 @@ export default function Libro(props) {
 
             <div>
 
-                <h2>Libro</h2>
-                <button onClick={() => handleAdLibro(props.id)}> +Agregar Libro</button>
+                <h2 className="personaTitle">Libro</h2>
+                <button className="addPersona" onClick={() => handleAdLibro(props.id)}> +Agregar Libro</button>
+               
+               <div className="container"> 
                 {agregarLibro && <AgregarLibro id={props.id} agregarLibro={agregarLibro} setAgregarLibro={setAgregarLibro} />}
 
                 {
                     datosJuntos.map((libro, index) => <UnLibro key={index} id={libro.id} nombre={libro.nombre} descripcion={libro.descripcion} categoria={libro.categoria_id} alias={libro.aliasPersona} persona_id={libro.persona_id} />)}
 
-
+</div>
             </div>
 
 
