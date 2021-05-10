@@ -8,7 +8,7 @@ import AgregarLibro from './AgregarLibro';
 function UnLibro(props) {
 
 
-  /* borrar states */
+    /* borrar states */
     const [abrirModalBorrarSuccess, setAbrirModalBorrarSuccess] = useState(false);
     const [abrirModalBorrarFailed, setAbrirModalBorrarFailed] = useState(false);
     const [succesMessageBorrar, setSuccesMessageBorrar] = useState("")
@@ -42,16 +42,16 @@ function UnLibro(props) {
             await axios.delete(`http://localhost:3000/libro/${idABorrar}`)
             dispatch({ type: 'REMOVER_LIBRO', idLibroARemover: idABorrar });
             setAbrirModalBorrarSuccess(!abrirModalBorrarSuccess);
-            setSuccesMessageBorrar("Libro Borrado con exito!")
+            setSuccesMessageBorrar("Book deleted!")
 
         } catch (e) {
             try {
-                 setAbrirModalBorrarFailed(!abrirModalBorrarFailed) 
-                   setLibroPrestado(e.response.data.mensaje) 
+                setAbrirModalBorrarFailed(!abrirModalBorrarFailed)
+                setLibroPrestado(e.response.data.mensaje)
 
             } catch (e2) {
-                setAbrirModalBorrarFailed(!abrirModalBorrarFailed) 
-                 setLibroPrestado(e.message) 
+                setAbrirModalBorrarFailed(!abrirModalBorrarFailed)
+                setLibroPrestado(e.message)
 
             }
 
@@ -68,7 +68,7 @@ function UnLibro(props) {
             dispatch({ type: 'DEVOLVER_LIBRO', idLibroADevolver: idADevolver });
             console.log(respuesta)
             setAbrirModalPrestarSuccess(!abrirModalPrestarSuccess);
-            setSuccesMessageDevolver("devuelto con exito!")
+            setSuccesMessageDevolver("Book returned!")
 
         } catch (e) {
             try {
@@ -88,94 +88,97 @@ function UnLibro(props) {
     return (
         <>
 
-            <div id={props.id} >
+            <div className="card" id={props.id} >
 
                 <div className="listado_contenedor">
                     <div className="lista">
 
-                        <div className="lista_id">
-                            {props.id}
+                        <div className="card-header">
+
+                            <p> id: {props.id} </p>
                         </div>
+                        <div className="card-content">
 
-                        <div className="lista_nombre">
-                            {props.nombre}
-                        </div>
-                        <div className="lista_apellido">
-                            {props.descripcion}
-                        </div>
-                
+                            <div className="lista_nombre">
+                                <p className="card-p ">    {props.nombre} </p>
+                            </div>
+                            <div className="lista_apellido">
+                                <p className="card-p ">    {props.descripcion}</p>
+                            </div>
 
-                        <div className="lista_editar">
-            {/*            EDITAR  */}
+                            <div className="card-botones-libro ">
+                                <div className="lista_editar">
+                                    {/*            EDITAR  */}
 
-                            <button onClick={() => handleEditarLibro(props.id)}> EDITAR</button>
-                            {modal && <EditarLibro id={props.id} setModal={setModal} modal={modal} />}
+                                    <button onClick={() => handleEditarLibro(props.id)}> Edit</button>
+                                    {modal && <EditarLibro id={props.id} setModal={setModal} modal={modal} />}
 
 
-                        </div>
-            {/*             BORRAR  */}
-                        <div className="lista_editar">
-                            <button onClick={() => handleBorrarLibro(props.id)}> Borrar</button>
-
-                            <div className={abrirModalBorrarSuccess ? "modalSucces" : "modalSucces-no"}>
-                                <div className="modal-content">
-                                    <p> {succesMessageBorrar} </p>
-
-                                    <button onClick={() => setAbrirModalBorrarSuccess(!abrirModalBorrarSuccess)} >cerrar</button>
                                 </div>
-                            </div>
+                                {/*             BORRAR  */}
+                                <div className="lista_editar">
+                                    <button onClick={() => handleBorrarLibro(props.id)}> Delete</button>
 
-                            <div className={abrirModalBorrarFailed ? "modalSucces" : "modalSucces-no"}>
-                                <div className="modal-content">
-                                    <p>  - {props.id} -{props.nombre} {"error proveniente del server- no se puede borrar" && libroPrestado}</p>
+                                    <div className={abrirModalBorrarSuccess ? "modalSucces" : "modalSucces-no"}>
+                                        <div className="modal-content">
+                                            <p> {succesMessageBorrar} </p>
 
-                                    <button onClick={()=> setAbrirModalBorrarFailed(!abrirModalBorrarFailed)}  >cerrar</button>
+                                            <button onClick={() => setAbrirModalBorrarSuccess(!abrirModalBorrarSuccess)} >Close</button>
+                                        </div>
+                                    </div>
+
+                                    <div className={abrirModalBorrarFailed ? "modalSucces" : "modalSucces-no"}>
+                                        <div className="modal-content">
+                                            <p>  - {props.id} -{props.nombre} {"error proveniente del server- no se puede borrar" && libroPrestado}</p>
+
+                                            <button onClick={() => setAbrirModalBorrarFailed(!abrirModalBorrarFailed)}  >Close</button>
+                                        </div>
+                                    </div>
+
+
                                 </div>
-                            </div>
+                                {/*             PRESTADO A */}
 
+                                <div className="lista_editar">
+                                    <button onClick={() => handleLibro(props.id)} > Borrowed to:</button>
+                                    <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
+                                        <p>  {props.alias} </p>
+                                    </div>
 
-                        </div>
-        {/*             PRESTADO A */}
-
-                        <div className="lista_editar">
-                            <button onClick={() => handleLibro(props.id)} > Prestado a</button>
-                            <div className={toggle ? "mostrar-libro-no" : "mostrar-libro-si"}>
-                                {props.alias}
-                            </div>
-
-                        </div>
-
-
-                        <div className="lista_editar">
-        {/*             DEVOLVER LIBRO */}
-                            <button to onClick={() => handleDevolver(props.id)}>Devolver </button>
-
-                            <div className={abrirModalPrestarSuccess ? "modalSucces" : "modalSucces-no"}>
-                                <div className="modal-content">
-                                    <p> ({props.id}-{props.nombre}) -{succesMessageDevolver} </p>
-
-                                    <button onClick={() => setAbrirModalPrestarSuccess(!abrirModalPrestarSuccess)} >cerrar</button>
-                                </div>
-                            </div>
-
-
-
-                            <div className={abrirModalPrestarFailed ? "modalSucces" : "modalSucces-no"}>
-                                <div className="modal-content">
-                                    <p>  ({props.id}-{props.nombre}) - {"error proveniente del server- no se puede devolver" && libroPrestado} </p>
-
-                                    <button onClick={() => setAbrirModalPrestarFailed(!abrirModalPrestarFailed)} >cerrar</button>
                                 </div>
 
+
+                                <div className="lista_editar">
+                                    {/*             DEVOLVER LIBRO */}
+                                    <button to onClick={() => handleDevolver(props.id)}>Return </button>
+
+                                    <div className={abrirModalPrestarSuccess ? "modalSucces" : "modalSucces-no"}>
+                                        <div className="modal-content">
+                                            <p> ({props.id}-{props.nombre}) -{succesMessageDevolver} </p>
+
+                                            <button onClick={() => setAbrirModalPrestarSuccess(!abrirModalPrestarSuccess)} >Close</button>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div className={abrirModalPrestarFailed ? "modalSucces" : "modalSucces-no"}>
+                                        <div className="modal-content">
+                                            <p>  ({props.id}-{props.nombre}) - {"error from server, cannot return" && libroPrestado} </p>
+
+                                            <button onClick={() => setAbrirModalPrestarFailed(!abrirModalPrestarFailed)} >Close</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div>
+
+                                    <div className="lista_editar">
+
+                                        <PrestarLibro id={props.id} />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-
-                            <div className="lista_editar">
-
-                                <PrestarLibro id={props.id} />
-                            </div>
-
                         </div>
 
 
@@ -209,7 +212,7 @@ export default function Libro(props) {
 
     const datosJuntos = listadoDeLibros.map(libroB => {
         const personaAlias = listadoPersonas.find(personaB => personaB.id == libroB.persona_id)
-        return { id: libroB.id, nombre: libroB.nombre, descripcion: libroB.descripcion, categoria: libroB.categoria_id, alias: libroB.alias, aliasPersona: personaAlias ? personaAlias.alias : "No esta prestado" }
+        return { id: libroB.id, nombre: libroB.nombre, descripcion: libroB.descripcion, categoria: libroB.categoria_id, alias: libroB.alias, aliasPersona: personaAlias ? personaAlias.alias : "This book is not taken" }
 
     })
 
@@ -222,16 +225,16 @@ export default function Libro(props) {
 
             <div>
 
-                <h2 className="personaTitle">Libro</h2>
-                <button className="addPersona" onClick={() => handleAdLibro(props.id)}> +Agregar Libro</button>
-               
-               <div className="container"> 
-                {agregarLibro && <AgregarLibro id={props.id} agregarLibro={agregarLibro} setAgregarLibro={setAgregarLibro} />}
+                <h2 className="personaTitle">Books</h2>
+                <button className="addPersona" onClick={() => handleAdLibro(props.id)}> +Add Book</button>
 
-                {
-                    datosJuntos.map((libro, index) => <UnLibro key={index} id={libro.id} nombre={libro.nombre} descripcion={libro.descripcion} categoria={libro.categoria_id} alias={libro.aliasPersona} persona_id={libro.persona_id} />)}
+                <div className="container">
+                    {agregarLibro && <AgregarLibro id={props.id} agregarLibro={agregarLibro} setAgregarLibro={setAgregarLibro} />}
 
-</div>
+                    {
+                        datosJuntos.map((libro, index) => <UnLibro key={index} id={libro.id} nombre={libro.nombre} descripcion={libro.descripcion} categoria={libro.categoria_id} alias={libro.aliasPersona} persona_id={libro.persona_id} />)}
+
+                </div>
             </div>
 
 

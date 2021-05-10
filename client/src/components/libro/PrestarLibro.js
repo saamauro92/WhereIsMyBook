@@ -60,7 +60,7 @@ export default function PrestarLibro(props) {
                 await axios.put('http://localhost:3000/libro/prestar/' + idAModificar, form);
                 dispatch({ type: 'PRESTAR', idAPrestar: form });
                 console.log(form)
-                setSuccesMessage("Libro prestado con exito!")
+                setSuccesMessage("Book taken succesfully!")
                 setEnviado(!enviado);
             }
 
@@ -85,27 +85,28 @@ export default function PrestarLibro(props) {
 
     return (
         <div>
+            <button onClick={() => onSave(props.id)}> Lend</button>
+
             <select value={props.persona_id} onChange={handlePersonaChange} >
-                <option value="0" selected disabled hidden> Elegir persona  </option>
+                <option value="0" selected disabled hidden> Choose User  </option>
 
                 {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.alias} </option>)}
             </select>
-            <button onClick={() => onSave(props.id)}> Prestar</button>
 
 
             <div className={enviado ? "modalSucces" : "modalSucces-no"}>
                 <div className="modal-content">
                     <p>{succesMessage} </p>
 
-                    <button onClick={()=> setEnviado(!enviado)} >cerrar</button>
+                    <button onClick={() => setEnviado(!enviado)} >Close</button>
                 </div>
 
             </div>
 
             <div className={noEnviado ? "modalSucces" : "modalSucces-no"}>
                 <div className="modal-content">
-                    <p> { "Error proveniente del servidor" && errorMessage  }  </p>
-                    <button onClick={()=>    setNoEnviado(!noEnviado)} >cerrar</button>
+                    <p> {"Error from server" && errorMessage}  </p>
+                    <button onClick={() => setNoEnviado(!noEnviado)} >Close</button>
                 </div>
 
             </div>

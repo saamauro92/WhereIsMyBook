@@ -54,7 +54,7 @@ export default function EditarLibro(props) {
 
     const validateForm = () => {
         if (!form.descripcion) {
-            return { validation: false, errorMessage: "*El campo no puede quedar vacio. Por Favor completar" };
+            return { validation: false, errorMessage: "*Please fill in the field" };
         } else {
             return { validation: true, errorMessage: "" };
 
@@ -73,7 +73,7 @@ export default function EditarLibro(props) {
                     delete form.nombre;
                     delete form.categoria_id;
                     delete form.persona_id;
-                     respuesta = await axios.put('http://localhost:3000/libro/' + idAModificar, form);
+                    respuesta = await axios.put('http://localhost:3000/libro/' + idAModificar, form);
                     dispatch({ type: 'MODIFICAR_UN_LIBRO', idLibroAModificar: respuesta.data });
                     setEnviado(!enviado);
                     console.log(form)
@@ -99,29 +99,34 @@ export default function EditarLibro(props) {
                 <div className="formulario_persona modal-content">
 
                     <span onClick={handleCerrar} className="close"> x</span>
-                    <h4>Editar Libro</h4>
-                    <div>
-                        <label >Descripcion del libro</label>
-                        <input type="text" name="descripcion" value={form.descripcion} onChange={handleDescriptionChange} />
-                    </div>
+                    <h4 className="form-tittle">Edit Book</h4>
 
-
-                    <div className={enviado ? "modalSucces" : "modalSucces-no"}>
-                        <div className="modal-content">
-
-                            <h2>Libro editado con exito!</h2>
-                            <button onClick={handleCerrarFormEnviado} >cerrar</button>
+                    <div className="form-wrapper">
+                        <div className="form-item">
+                            <label > Book Description</label>
+                            <input type="text" name="descripcion" value={form.descripcion} onChange={handleDescriptionChange} />
                         </div>
 
+
+                        <div className={enviado ? "modalSucces" : "modalSucces-no"}>
+                            <div className="modal-content">
+
+                             <h2>Book edited succesfully!</h2>
+                                <button onClick={handleCerrarFormEnviado} >Close</button>
+                            </div>
+
+                        </div>
+
+                        <div className="form-button">
+
+                            <button onClick={() => onSave(props.id)}> Save</button>
+
+                            <button onClick={handleCerrar}>Cancel</button>
+                        </div>
+                        <p>   {errorMessage} </p>
                     </div>
 
-
-                    <button onClick={() => onSave(props.id)}> Guardar</button>
-
-                    <button onClick={handleCerrar}>Cancelar</button>
-                    <p>   {errorMessage} </p>
                 </div>
-
             </div>
         </>
     )

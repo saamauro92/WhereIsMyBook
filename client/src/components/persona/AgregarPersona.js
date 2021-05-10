@@ -7,10 +7,10 @@ import { useDispatch } from 'react-redux';
 
 
 export default function AgregarPersona(props) {
- const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
-const setAgregarPersona = props.setAgregarPersona;
-const [enviado, setEnviado] = useState(false);
+    const setAgregarPersona = props.setAgregarPersona;
+    const [enviado, setEnviado] = useState(false);
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         nombre: '',
@@ -48,32 +48,33 @@ const [enviado, setEnviado] = useState(false);
     };
 
 
-    const validateForm = () => {  
+    const validateForm = () => {
         if (!form.nombre || !form.apellido || !form.alias || !form.email) {
-             return {validation: false, errorMessage: "*Faltan datos. Por favor completar todos los campos."};   
-            } else { return {validation: true, errorMessage:""};
-       
-         }  
-          }
+            return { validation: false, errorMessage: "*Please complete all required fields" };
+        } else {
+            return { validation: true, errorMessage: "" };
+
+        }
+    }
 
 
     const onSave = async () => {
         let formValidation = validateForm();
-        if(!formValidation.validation){
+        if (!formValidation.validation) {
             setErrorMessage(formValidation.errorMessage);
         } else {
             let respuesta
-     
-        try {
-             respuesta = await axios.post(`http://localhost:3000/persona`, form);
-            dispatch({ type: 'AGREGAR_UNA_PERSONA', storeActionPersona: respuesta.data });
-         
 
-            setEnviado(!enviado);
+            try {
+                respuesta = await axios.post(`http://localhost:3000/persona`, form);
+                dispatch({ type: 'AGREGAR_UNA_PERSONA', storeActionPersona: respuesta.data });
 
-        } catch (e) {
 
-        }
+                setEnviado(!enviado);
+
+            } catch (e) {
+
+            }
 
         }
 
@@ -83,59 +84,59 @@ const [enviado, setEnviado] = useState(false);
 
     const handleCerrar = () => {
         setAgregarPersona(!setAgregarPersona)
-        
-            };
 
-            const handleCerrarFormEnviado = () => {
-                setAgregarPersona(!setAgregarPersona)
-                setEnviado(!enviado);
-                    };
-                
+    };
+
+    const handleCerrarFormEnviado = () => {
+        setAgregarPersona(!setAgregarPersona)
+        setEnviado(!enviado);
+    };
+
 
     return (
         <>
-        <div className="modal"> 
+            <div className="modal">
 
-            <div className="formulario_persona modal-content">
-      
-            <span onClick={handleCerrar} className="close"> x</span>
-            <h4 className="form-tittle "> Agregar Persona</h4>
+                <div className="formulario_persona modal-content">
 
-            <div className="form-wrapper"> 
-                <div className="form-item ">
-                    <label >Nombre</label>
-                    <input type="text" name="nombre" value={form.nombre} onChange={handleNameChange} />
+                    <span onClick={handleCerrar} className="close"> x</span>
+                    <h4 className="form-tittle "> Add User</h4>
+
+                    <div className="form-wrapper">
+                        <div className="form-item ">
+                            <label >Name</label>
+                            <input type="text" name="nombre" value={form.nombre} onChange={handleNameChange} />
+                        </div>
+                        <div className="form-item ">
+                            <label >Surname</label>
+                            <input type="text" name="apellido" value={form.apellido} onChange={handleSurnameChange} />
+                        </div>
+                        <div className="form-item " >
+                            <label >Email</label>
+                            <input type="text" name="email" value={form.email} onChange={handleEmailChange} />
+                        </div>
+                        <div className="form-item " >
+                            <label >Username</label>
+                            <input type="text" name="alias" value={form.alias} onChange={handleUsernameChange} />
+                        </div>
+                        <div className="form-button">
+                            <button type="submit" onClick={onSave}> Save</button>
+                            <button onClick={handleCerrar}>Cancel</button>
+
+                        </div>
+                        <p>   {errorMessage} </p>
+                        <div className={enviado ? "modalSucces" : "modalSucces-no"}>
+                            <div className="modal-content">
+
+                                <h2>User added succesfully!</h2>
+                                <button onClick={handleCerrarFormEnviado} >Close</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
                 </div>
-                <div className="form-item ">
-                    <label >Apellido</label>
-                    <input type="text" name="apellido" value={form.apellido} onChange={handleSurnameChange} />
-                </div>
-                <div className="form-item " >
-                    <label >Email</label>
-                    <input type="text" name="email" value={form.email} onChange={handleEmailChange} />
-                </div>
-                <div className="form-item " >
-                    <label >Alias</label>
-                    <input type="text" name="alias" value={form.alias} onChange={handleUsernameChange} />
-                </div>
-            <div className="form-button">
-                <button  type="submit" onClick={onSave}> Guardar</button>
-                <button onClick={handleCerrar}>Cancelar</button>
-
-            </div>
-                <p>   {errorMessage} </p>   
-                <div className={enviado ? "modalSucces": "modalSucces-no"}>
-    <div className="modal-content">
-
-    <h2>Persona agregada con exito!</h2>
-    <button onClick={handleCerrarFormEnviado} >cerrar</button>
-    </div>
- 
-</div>
-
-
-            </div>
-            </div>
             </div>
         </>
     )

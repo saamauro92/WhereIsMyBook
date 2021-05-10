@@ -51,7 +51,7 @@ export default function EditarCategoria(props) {
 
     const validateForm = () => {
         if (!form.nombre) {
-            return { validation: false, errorMessage: "*El campo no puede quedar vacio. Por Favor completar" };
+            return { validation: false, errorMessage: "*Field cannot be empty" };
         } else {
             return { validation: true, errorMessage: "" };
 
@@ -68,7 +68,7 @@ export default function EditarCategoria(props) {
             try {
 
                 console.log(form)
-                 respuesta = await axios.put('http://localhost:3000/categoria/' + idAModificar, form);
+                respuesta = await axios.put('http://localhost:3000/categoria/' + idAModificar, form);
                 dispatch({ type: 'MODIFICAR_UNA_CATEGORIA', idCategoriaAModificar: respuesta.data });
                 setEnviado(!enviado);
                 console.log(form)
@@ -89,26 +89,31 @@ export default function EditarCategoria(props) {
             <div className="modal">
                 <div className="formulario_persona modal-content">
                     <span onClick={handleCerrar} className="close"> x</span>
-                    <h4>Editar Categoria</h4>
+                    <h4 className="form-tittle"> Edit Category</h4>
 
-                    <div>
-                        <label >Nombre</label>
-                        <input type="text" name="nombre" value={form.nombre} onChange={handleNameChange} />
-                    </div>
-                    <div className={enviado ? "modalSucces" : "modalSucces-no"}>
-                        <div className="modal-content">
+                    <div className="form-wrapper">
+                        <div className="form-item">
+                            <label >Name</label>
+                            <input type="text" name="nombre" value={form.nombre} onChange={handleNameChange} />
+                        </div>
+                        <div className={enviado ? "modalSucces" : "modalSucces-no"}>
+                            <div className="modal-content">
 
-                            <h2>Libro editado con exito!</h2>
-                            <button onClick={handleCerrarFormEnviado} >cerrar</button>
+                                <h2>Category edited succesfully!</h2>
+                                <button onClick={handleCerrarFormEnviado} >Close</button>
+
+                            </div>
+
 
                         </div>
+                        <div className="form-button">
 
+                            <button onClick={() => onSave(props.id)}> Save</button>
 
+                            <button onClick={handleCerrar}>Cancel</button>
+                            <p>   {errorMessage}  </p>
+                        </div>
                     </div>
-                    <button onClick={() => onSave(props.id)}> Guardar</button>
-
-                    <button onClick={handleCerrar}>Cancelar</button>
-                    <p>   {errorMessage} </p>
                 </div>
             </div>
         </>

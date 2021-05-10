@@ -12,17 +12,17 @@ function Sidebar() {
 
       <div className="sidebar-wrapper">
         <Link className="sidebarButton" to="/persona">
-          <p>Usuarios</p>
+          <p>Users</p>
         </Link>
       </div>
       <div className="sidebar-wrapper">
         <Link className="sidebarButton" to="/categoria">
-          <p>Géneros</p>
+          <p>Category</p>
         </Link>
       </div>
       <div className="sidebar-wrapper">
         <Link className="sidebarButton" to="/libro">
-          <p>Libros</p>
+          <p>Books</p>
         </Link>
       </div>
       <div className="sidebar-footimg">

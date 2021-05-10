@@ -53,7 +53,7 @@ export default function AgregarLibro(props) {
 
     const validateForm = () => {
         if (!form.nombre || !form.descripcion || !form.categoria_id) {
-            return { validation: false, errorMessage: "*Faltan datos. Por favor completar todos los campos." };
+            return { validation: false, errorMessage: "*Please complete all required fields." };
         } else {
             return { validation: true, errorMessage: "" };
 
@@ -76,7 +76,7 @@ export default function AgregarLibro(props) {
                 setEnviado(!enviado);
 
             } catch (e) {
-                console.log('problema con el servidor')
+                console.log('Server problem')
             }
         }
     };
@@ -99,47 +99,47 @@ export default function AgregarLibro(props) {
             <div className="modal">
                 <div className="formulario_persona modal-content">
                     <span onClick={handleCerrar} className="close"> x</span>
-                    <h4 className="form-tittle">Agregar libro</h4>
+                    <h4 className="form-tittle">Add Book</h4>
 
                     <div className="form-wrapper"> 
 
-                    <div className="form-item">
-                        <label >Nombre</label>
+                    <div className="form-item" >
+                        <label >Name</label>
                         <input type="text" value={form.nombre} onChange={handleNameChange} placeholder="Nombre" />
                     </div>
                     <div  className="form-item">
-                        <label >Descripcion</label>
+                        <label >Description</label>
                         <input type="text" value={form.descripcion} onChange={handleDescripcionChange} placeholder="Descripcion" />
                     </div>
                     <div className="form-item" >
-                        <label >Genero</label>
+                        <label >Category</label>
                         <select className="form-item" value={props.categoria_id} onChange={handleCategoriaChange}>
 
-                            <option value="" disabled selected hidden>Selecionar Categoria</option>
+                            <option value="" disabled selected hidden>Select Category</option>
 
                             {categoria.map((categoria) => <option value={categoria.id} key={categoria.id}    >{categoria.nombre} </option>)}
                         </select>
                     </div>
                     <div  className="form-item">
-                        <label >Persona a Prestar</label>
+                        <label >User to lend</label>
                         <select className="form-item" value={props.persona_id} onChange={handlePersonaChange} >
-                            <option value="" disabled selected hidden>Selecionar Persona</option>
-                            <option value=""  >Sin prestar</option>
+                            <option value="" disabled selected hidden>Select User</option>
+                            <option value=""  > not taken</option>
                             {listadoPersonas.map((persona) => <option value={persona.id} key={persona.id}   >{persona.nombre} </option>)}
                         </select>
 
                     </div>
                         <div className="form-button">  
 
-                    <button onClick={handleSave}>Guardar</button>
-                    <button onClick={handleCerrar}>Cancelar</button>
+                    <button onClick={handleSave}>Save</button>
+                    <button onClick={handleCerrar}>Cancel</button>
                         </div>
                     <p>   {errorMessage} </p>
                     <div className={enviado ? "modalSucces" : "modalSucces-no"}>
                         <div className="modal-content">
 
-                            <h2>Libro agregado con exito!</h2>
-                            <button onClick={handleCerrarFormEnviado} >cerrar</button>
+                            <h2>Book added succesfully!</h2>
+                            <button onClick={handleCerrarFormEnviado} >Close</button>
                         </div>
 
                     </div>
